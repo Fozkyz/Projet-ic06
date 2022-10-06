@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-	[SerializeField] private float cooldownTime = 1f;
+	[SerializeField] private float cooldownTime = 0f;
 
 	private Teleporter linkedTeleporter;
 	private float timeSinceUsed;
