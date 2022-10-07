@@ -5,10 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	[SerializeField] private PlayerController player;
-	
+
 	private Vector2 startPos;
 
-    public void ResetPlayerPosition()
+	public void ResetPlayerPosition()
 	{
 		player.transform.position = startPos;
 	}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
+	[SerializeField] private GameObject grid;
 	[SerializeField] private Vector2Int dungeonSize;
 	[SerializeField] private int roomCount;
 
@@ -103,7 +104,7 @@ public class DungeonGenerator : MonoBehaviour
 				if(room != RoomDirection.NULL && room > RoomDirection.ND)
 				{
 					Vector2Int t = new Vector2Int(i, j);
-					TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), holder);
+					TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
 					teleporterManagers[t] = tpManager;
 				}
 			}

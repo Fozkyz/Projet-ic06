@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Room_1x1_TBLR
   m_EditorClassIdentifier: 
   size: {x: 50, y: 40}
-  roomPrefab: {fileID: 1662172883610277831, guid: 15c3adfe40bbd154fb174c1651ac7108, type: 3}
+  roomPrefab: {fileID: 2359352346204742343, guid: 33178f63e182a1c4c831dae2caf41165, type: 3}
