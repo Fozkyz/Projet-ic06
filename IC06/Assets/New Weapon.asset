@@ -26,7 +26,7 @@ MonoBehaviour:
     fireRate: 3
     chargeTime: 2
   projectileComponent:
-    projectileSprite: {fileID: 1982775081, guid: f9d194c29a6a1274b8117b6370f952ee, type: 3}
+    projectileSprite: {fileID: 21300000, guid: 39a768b7a66b3f541badf41066f67ede, type: 3}
     projectileType: 0
     projectileDamage: 0
     projectileSpeed: 10
