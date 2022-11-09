@@ -19,7 +19,13 @@ public class PlayerController : MonoBehaviour
 	void Awake() => Invoke(nameof(Activate), 0.5f);
 	void Activate() => _isActive = true;
 
-    void Update()
+	void Start()
+	{
+		playerAnimator = playerGraphics.GetComponent<Animator>();
+		facingRight = true;
+	}
+
+	void Update()
 	{
 		if (!_isActive)
 		{
@@ -31,6 +37,17 @@ public class PlayerController : MonoBehaviour
 
 		GatherInput();
 		RunCollisionChecks();
+
+		//InputFrame.Horizontal
+		playerAnimator.SetFloat("Speed", InputFrame.Horizontal);
+		if (facingRight && InputFrame.Horizontal < 0f || !facingRight && InputFrame.Horizontal > 0f)
+		{
+			facingRight = !facingRight;
+			//Vector3 rot = playerGraphics.rotation.eulerAngles;
+			//playerGraphics.rotation.SetEulerAngles(rot.x, rot.y, rot.z);
+			//playerGraphics.Rotate(playerGraphics.up, 180f);
+			//playerAnimator.SetBool("Mirror", facingRight);
+		}
 
 		CalculateWalk(); // Horizontal movement
 		CalculateJumpApex(); // Affects fall speed, so calculate before gravity
@@ -58,6 +75,11 @@ public class PlayerController : MonoBehaviour
 	}
 
 	#endregion
+
+	[Header("Graphics")]
+	[SerializeField] private Transform playerGraphics;
+	private Animator playerAnimator;
+	private bool facingRight;
 
 	#region Collisions
 
@@ -154,11 +176,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    #endregion
+	#endregion
 
-    #region Walk
+	#region Walk
 
-    [Header("Walk")]
+	[Header("Walk")]
 	[SerializeField] private float _acceleration = 90;
 	[SerializeField] private float _moveClamp = 13;
 	[SerializeField] private float _deceleration = 60f;

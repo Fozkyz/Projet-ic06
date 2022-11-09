@@ -7,6 +7,8 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private WeaponSO weaponSO;
 	[SerializeField] private Transform shootFrom;
+	
+	private Camera cam;
 
     UnityEvent mouseButtonPressedEvent;
     UnityEvent mouseButtonReleasedEvent;
@@ -15,12 +17,14 @@ public class Weapon : MonoBehaviour
 
 	public void ShootHandler()
 	{
-		Debug.Log("Shoot");
-		shootProjectileEvent.Invoke(Vector2.right, shootFrom);
+		Vector2 shootFromPos =  cam.WorldToScreenPoint(shootFrom.position);
+		Vector2 shootDir = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y).normalized;
+		shootProjectileEvent.Invoke(shootDir, shootFrom);
 	}
 
 	private void Start()
 	{
+		cam = Camera.main;
 		if (weaponSO != null)
 		{
 			if (mouseButtonPressedEvent == null)
