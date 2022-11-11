@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour
 
 	UnityEvent<Vector2, Transform> shootProjectileEvent;
 
-	public void ShootHandler()
+	public void OnShootHandler()
 	{
 		Vector2 shootFromPos =  cam.WorldToScreenPoint(shootFrom.position);
 		Vector2 shootDir = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y).normalized;
@@ -27,23 +27,21 @@ public class Weapon : MonoBehaviour
 		cam = Camera.main;
 		if (weaponSO != null)
 		{
-			if (mouseButtonPressedEvent == null)
-			{
-				mouseButtonPressedEvent = new UnityEvent();
-			}
-			if (mouseButtonReleasedEvent == null)
-			{
-				mouseButtonReleasedEvent = new UnityEvent();
-			}
-			if (shootProjectileEvent == null)
-			{
-				shootProjectileEvent = new UnityEvent<Vector2, Transform>();
-			}
+			mouseButtonPressedEvent = new UnityEvent();
+			mouseButtonReleasedEvent = new UnityEvent();
+			shootProjectileEvent = new UnityEvent<Vector2, Transform>();
+			weaponSO.GetShootComponent().OnShootEvent = new UnityEvent();
+			weaponSO.GetShootComponent().OnStoppedHoldingEvent = new UnityEvent();
+			weaponSO.GetShootComponent().OnCanceledChargeEvent = new UnityEvent();
+			weaponSO.GetProjectileComponent().OnProjectileFiredEvent = new UnityEvent<Projectile>();
+
 			mouseButtonPressedEvent.AddListener(weaponSO.GetShootComponent().OnMouseButtonPressedHandler);
 			mouseButtonReleasedEvent.AddListener(weaponSO.GetShootComponent().OnMouseButtonReleasedHandler);
 			shootProjectileEvent.AddListener(weaponSO.GetProjectileComponent().OnShootProjectileHandler);
 
-			weaponSO.GetShootComponent().shootEvent.AddListener(ShootHandler);
+			weaponSO.GetShootComponent().OnShootEvent.AddListener(OnShootHandler);
+
+			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
 		}
 	}
 

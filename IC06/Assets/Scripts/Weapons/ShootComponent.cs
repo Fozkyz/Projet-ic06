@@ -7,9 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class ShootComponent
 {
-	public UnityEvent shootEvent;
-	public UnityEvent stoppedHoldingEvent;
-	public UnityEvent canceledChargeEvent;
+	public UnityEvent OnShootEvent;
+	public UnityEvent OnStoppedHoldingEvent;
+	public UnityEvent OnCanceledChargeEvent;
 
 	enum ShootType { FULL_AUTO, SEMI_AUTO, HOLD, CHARGED};
 	[SerializeField] private ShootType shootType;
@@ -38,10 +38,14 @@ public class ShootComponent
 				{
 					shootTask = StartFiringSemiAuto();
 				}
+				else
+				{
+					Debug.Log(shootTask.Exception.Message);
+				}
 				break;
 
 			case ShootType.HOLD:
-				shootEvent.Invoke();
+				OnShootEvent.Invoke();
 				break;
 
 			case ShootType.CHARGED:
@@ -62,14 +66,14 @@ public class ShootComponent
 	{
 		while(isFiring)
 		{
-			shootEvent.Invoke();
+			OnShootEvent.Invoke();
 			await Task.Delay((int) (1000 / fireRate));
 		}
 	}
 
 	async Task StartFiringSemiAuto()
 	{
-		shootEvent.Invoke();
+		OnShootEvent.Invoke();
 		await Task.Delay((int)(1000 / fireRate));	
 	}
 
@@ -80,11 +84,11 @@ public class ShootComponent
 		{
 			if (!isFiring)
 			{
-				canceledChargeEvent.Invoke();
+				OnCanceledChargeEvent.Invoke();
 				return;
 			}
 			await Task.Yield();
 		}
-		shootEvent.Invoke();
+		OnShootEvent.Invoke();
 	}
 }
