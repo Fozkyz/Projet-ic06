@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
 	public UnityEvent<Projectile, Collision2D> OnLastWallHitEvent;
 	public UnityEvent<Projectile> OnLifetimeElapsedEvent;
 
-	private Rigidbody2D rb;
+	public Rigidbody2D rb;
 
 	public float LifeTime { get; set; }
 	public int EnemiesToGoThrough { get; set; }
@@ -35,6 +35,12 @@ public class Projectile : MonoBehaviour
 		StartCoroutine("DoLifeTime");
 	}
 
+	public void CalculateBounce(Collision2D collision)
+	{
+		Vector2 normal = collision.GetContact(0).normal;
+		rb.velocity = rb.velocity - 2 * Vector2.Dot(normal, rb.velocity) * normal;
+	}
+
 	public void CalculateProjectileRotation()
 	{
 		float angle = Vector3.Angle(Vector3.right, rb.velocity);
@@ -45,8 +51,12 @@ public class Projectile : MonoBehaviour
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 	}
 
-	public void DestroyProjectile()
+	public void DestroyProjectile(ParticleSystem particles)
 	{
+		if (particles != null)
+		{
+			Instantiate(particles, transform.position, Quaternion.identity);
+		}
 		Destroy(gameObject);
 	}
 
@@ -65,6 +75,7 @@ public class Projectile : MonoBehaviour
 			{
 				OnLastWallHitEvent.Invoke(this, collision);
 			}
+			NumberOfBounces++;
 		}
 		// Hit an enemy
 		if (((1<<collision.gameObject.layer) & enemyLayer) != 0 && !previousHits.Contains(collision.transform))

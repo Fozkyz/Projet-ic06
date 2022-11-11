@@ -5,7 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class OnHitComponent
 {
-	[SerializeField] private int damage;
+	[SerializeField] private int onHitDamage;
+	[SerializeField] private ParticleSystem explosionParticleSystem;
+	[SerializeField] private Sprite onHitExplosionSprite;
+	[SerializeField] private float onHitExplosionRadius;
+	[SerializeField] private int onHitExplosionDamage;
+	[SerializeField] private bool onHitExplosionHitsPlayer;
 
     public void OnProjectileFiredHandler(Projectile proj)
 	{
@@ -18,7 +23,7 @@ public class OnHitComponent
 
 	private void OnEnemyHitHandler(Projectile proj, Enemy enemy)
 	{
-		enemy.TakeDamage(damage);
+		enemy.TakeDamage(onHitDamage);
 		// Spawn particle effects
 	}
 
@@ -26,21 +31,22 @@ public class OnHitComponent
 	{
 		// OnEnemyHitEvent will always be fired before OnLastEnemyHitEvent,
 		// so there's no need to calculate damage amount (unless we want additional damage...)
-		proj.DestroyProjectile();
+		proj.DestroyProjectile(explosionParticleSystem);
 	}
 
 	private void OnWallHitHandler(Projectile proj, Collision2D collision)
 	{
+		proj.CalculateBounce(collision);
 		proj.CalculateProjectileRotation();
 	}
 
 	private void OnLastWallHitHandler(Projectile proj, Collision2D collision)
 	{
-		proj.DestroyProjectile();
+		proj.DestroyProjectile(explosionParticleSystem);
 	}
 
 	private void OnLifetimeElapsedHandler(Projectile proj)
 	{
-		proj.DestroyProjectile();
+		proj.DestroyProjectile(null);
 	}
 }
