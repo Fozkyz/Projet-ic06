@@ -1925,6 +1925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSO: {fileID: 11400000, guid: d225e79c26d112b49833368a11778e83, type: 2}
   shootFrom: {fileID: 876119511}
+  playerGraphics: {fileID: 780433016}
 --- !u!1 &1581167414
 GameObject:
   m_ObjectHideFlags: 0

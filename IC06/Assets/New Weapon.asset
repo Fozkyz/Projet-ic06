@@ -13,24 +13,28 @@ MonoBehaviour:
   m_Name: New Weapon
   m_EditorClassIdentifier: 
   shootComponent:
-    shootEvent:
+    OnShootEvent:
       m_PersistentCalls:
         m_Calls: []
-    stoppedHoldingEvent:
+    OnStoppedHoldingEvent:
       m_PersistentCalls:
         m_Calls: []
-    canceledChargeEvent:
+    OnCanceledChargeEvent:
       m_PersistentCalls:
         m_Calls: []
     shootType: 0
-    fireRate: 10
+    fireRate: 5
     chargeTime: 2
   projectileComponent:
+    OnProjectileFiredEvent:
+      m_PersistentCalls:
+        m_Calls: []
     projectileSprite: {fileID: 21300000, guid: b19e13afedf9b014daaa09e0b19165ab, type: 3}
     projectileType: 0
-    projectileDamage: 4
     projectileSpeed: 10
     projectileSize: 1
     projectileLifetime: 20
     projectileEnemiesToGoThrough: 1
     projectileNumberOfBounces: 10
+  onHitComponent:
+    damage: 0

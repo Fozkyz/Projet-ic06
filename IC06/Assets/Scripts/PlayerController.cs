@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
 	void Start()
 	{
 		playerAnimator = playerGraphics.GetComponent<Animator>();
-		facingRight = true;
 	}
 
 	void Update()
@@ -40,14 +39,14 @@ public class PlayerController : MonoBehaviour
 
 		//InputFrame.Horizontal
 		playerAnimator.SetFloat("Speed", InputFrame.Horizontal);
-		if (facingRight && InputFrame.Horizontal < 0f || !facingRight && InputFrame.Horizontal > 0f)
-		{
-			facingRight = !facingRight;
-			//Vector3 rot = playerGraphics.rotation.eulerAngles;
-			//playerGraphics.rotation.SetEulerAngles(rot.x, rot.y, rot.z);
-			//playerGraphics.Rotate(playerGraphics.up, 180f);
-			//playerAnimator.SetBool("Mirror", facingRight);
-		}
+		//if (facingRight && InputFrame.Horizontal < 0f || !facingRight && InputFrame.Horizontal > 0f)
+		//{
+		//	facingRight = !facingRight;
+		//	//Vector3 rot = playerGraphics.rotation.eulerAngles;
+		//	//playerGraphics.rotation.SetEulerAngles(rot.x, rot.y, rot.z);
+		//	//playerGraphics.Rotate(playerGraphics.up, 180f);
+		//	//playerAnimator.SetBool("Mirror", facingRight);
+		//}
 
 		CalculateWalk(); // Horizontal movement
 		CalculateJumpApex(); // Affects fall speed, so calculate before gravity
@@ -79,7 +78,6 @@ public class PlayerController : MonoBehaviour
 	[Header("Graphics")]
 	[SerializeField] private Transform playerGraphics;
 	private Animator playerAnimator;
-	private bool facingRight;
 
 	#region Collisions
 
