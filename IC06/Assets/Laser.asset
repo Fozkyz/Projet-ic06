@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
-  m_Name: New Weapon
+  m_Name: Laser
   m_EditorClassIdentifier: 
   shootComponent:
     OnShootEvent:
@@ -22,20 +22,28 @@ MonoBehaviour:
     OnCanceledChargeEvent:
       m_PersistentCalls:
         m_Calls: []
-    shootType: 0
+    shootType: 2
     fireRate: 5
     chargeTime: 2
   projectileComponent:
     OnProjectileFiredEvent:
       m_PersistentCalls:
         m_Calls: []
-    projectileSprite: {fileID: 21300000, guid: b19e13afedf9b014daaa09e0b19165ab, type: 3}
-    projectileType: 0
+    OnHitscanFiredEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    projectileGO: {fileID: 8173395622551102823, guid: bee4713cfaef14948a0b3fc603b3f996, type: 3}
+    projectileSprite: {fileID: 0}
+    projectileType: 1
+    overrideProjectileAttributes: 1
     projectileSpeed: 10
-    projectileSize: 1
-    projectileLifetime: 20
+    projectileSize: 0.2
+    projectileLifetime: 5
+    projectileRange: 20
     projectileEnemiesToGoThrough: 1
-    projectileNumberOfBounces: 10
+    projectileNumberOfBounces: 0
+    isProjectileAffectedByGravity: 0
+    folowsMouse: 1
   onHitComponent:
     onHitDamage: 4
     explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}

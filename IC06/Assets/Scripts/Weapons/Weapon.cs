@@ -36,6 +36,7 @@ public class Weapon : MonoBehaviour
 			mouseButtonPressedEvent = new UnityEvent();
 			mouseButtonReleasedEvent = new UnityEvent();
 			shootProjectileEvent = new UnityEvent<Vector2, Transform>();
+
 			weaponSO.GetShootComponent().OnShootEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnCanceledChargeEvent = new UnityEvent();
@@ -46,6 +47,7 @@ public class Weapon : MonoBehaviour
 			shootProjectileEvent.AddListener(weaponSO.GetProjectileComponent().OnShootProjectileHandler);
 
 			weaponSO.GetShootComponent().OnShootEvent.AddListener(OnShootHandler);
+			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetProjectileComponent().OnStoppedHoldingHandler);
 
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
 		}

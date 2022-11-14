@@ -3,46 +3,108 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
+public enum ProjectileType { PROJECTILE, HITSCAN};
 [System.Serializable]
 public class ProjectileComponent
 {
 	public UnityEvent<Projectile> OnProjectileFiredEvent;
+	public UnityEvent<Projectile> OnHitscanFiredEvent;
 
-	enum ProjectileType { PROJECTILE, HITSCAN};
 
-	[SerializeField] private Sprite projectileSprite;
+	[SerializeField] private GameObject projectileGO; // Can be a projectile or a hitscan
+	[SerializeField] private Sprite projectileSprite; // Only used if projectileGO is null
 	[SerializeField] private ProjectileType projectileType;
+	[SerializeField, Tooltip("Whether or not the projectile attributes should take their default values from the projectile gameobject")]
+	private bool overrideProjectileAttributes;
+	//[SerializeField] private Sprite projectileSprite;
 	[SerializeField] private float projectileSpeed;
 	[SerializeField] private float projectileSize;
 	[SerializeField] private float projectileLifetime;
+	[SerializeField] private float projectileRange;
 	[SerializeField] private int projectileEnemiesToGoThrough;
 	[SerializeField] private int projectileNumberOfBounces;
+	[SerializeField] private bool isProjectileAffectedByGravity;
+	[SerializeField] private bool folowsMouse;
+
+	private GameObject projectileInstance;
 
 	public void OnShootProjectileHandler(Vector2 dir, Transform shootFrom)
 	{
-		GameObject projectileGO = new GameObject();
-		projectileGO.transform.position = shootFrom.position;
+		switch (projectileType)
+		{
+			case ProjectileType.PROJECTILE:
+				ShootProjectile(dir, shootFrom);
+				break;
+			case ProjectileType.HITSCAN:
+				ShootProjectile(dir, shootFrom);
+				break;
+			default:
+				break;
+		}
+	}
 
-		SpriteRenderer renderer = projectileGO.AddComponent<SpriteRenderer>();
-		renderer.sprite = projectileSprite;
-		BoxCollider2D col = projectileGO.AddComponent<BoxCollider2D>();
-		col.size = renderer.localBounds.size;
-		Rigidbody2D rb = projectileGO.AddComponent<Rigidbody2D>();
-		rb.velocity = dir * projectileSpeed;
-		rb.isKinematic = true;
-		rb.useFullKinematicContacts = true;
-		rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-		Projectile projectile = projectileGO.AddComponent<Projectile>();
-		projectileGO.transform.localScale = Vector3.one * projectileSize;
+	public void OnStoppedHoldingHandler()
+	{
+		if (projectileInstance != null)
+		{
+			Projectile proj = projectileInstance.GetComponent<Projectile>();
+			if (proj != null)
+			{
+				GameObject.Destroy(proj.gameObject);
+			}
+		}
+	}
 
-		projectile.LifeTime = projectileLifetime;
-		projectile.EnemiesToGoThrough = projectileEnemiesToGoThrough;
-		projectile.NumberOfBounces = projectileNumberOfBounces;
+	private void ShootProjectile(Vector2 dir, Transform shootFrom)
+	{
+		if (projectileGO == null)
+		{
+			projectileInstance = new GameObject();
+		}
+		else
+		{
+			projectileInstance = GameObject.Instantiate(projectileGO);
+		}
+		//GameObject projectileGO = new GameObject();
+		projectileInstance.transform.position = shootFrom.position;
+
+			//Rigidbody2D rb = projectileInstance.GetComponent<Rigidbody2D>();
+			//if (rb == null)
+			//{
+			//	rb = projectileInstance.AddComponent<Rigidbody2D>();
+			//}
+			//rb.velocity = dir * projectileSpeed;
+			//rb.useFullKinematicContacts = true;
+			//rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+		Projectile projectile = projectileInstance.GetComponent<Projectile>();
+		if (projectile == null)
+		{
+			projectile = projectileInstance.AddComponent<Projectile>();
+		}
+		if (overrideProjectileAttributes)
+		{
+			//rb.isKinematic = !isProjectileAffectedByGravity;
+
+			//projectileInstance.transform.localScale = Vector3.one * projectileSize;
+
+			projectile.ProjectileType = projectileType;
+			projectile.LifeTime = projectileLifetime;
+			projectile.Size = projectileSize;
+			projectile.Speed = projectileSpeed;
+			projectile.MaxRange = projectileRange;
+			projectile.EnemiesToGoThrough = projectileEnemiesToGoThrough;
+			projectile.NumberOfBounces = projectileNumberOfBounces;
+			projectile.IsAffectedByGravity = isProjectileAffectedByGravity;
+			projectile.FolowsMouse = folowsMouse;
+			projectile.Direction = dir;
+			projectile.ShootFrom = shootFrom;
+		}
 
 		projectile.OnEnemyHitEvent = new UnityEvent<Projectile, Enemy>();
 		projectile.OnLastEnemyHitEvent = new UnityEvent<Projectile, Enemy>();
-		projectile.OnWallHitEvent = new UnityEvent<Projectile, Collision2D>();
-		projectile.OnLastWallHitEvent = new UnityEvent<Projectile, Collision2D>();
+		projectile.OnWallHitEvent = new UnityEvent<Projectile, Transform, Vector2>();
+		projectile.OnLastWallHitEvent = new UnityEvent<Projectile, Transform, Vector2>();
 		projectile.OnLifetimeElapsedEvent = new UnityEvent<Projectile>();
 
 		projectile.Launch();

@@ -31,22 +31,17 @@ public class OnHitComponent
 	{
 		// OnEnemyHitEvent will always be fired before OnLastEnemyHitEvent,
 		// so there's no need to calculate damage amount (unless we want additional damage...)
-		proj.DestroyProjectile(explosionParticleSystem);
 	}
 
-	private void OnWallHitHandler(Projectile proj, Collision2D collision)
+	private void OnWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
 	{
-		proj.CalculateBounce(collision);
-		proj.CalculateProjectileRotation();
 	}
 
-	private void OnLastWallHitHandler(Projectile proj, Collision2D collision)
+	private void OnLastWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
 	{
-		proj.DestroyProjectile(explosionParticleSystem);
 	}
 
 	private void OnLifetimeElapsedHandler(Projectile proj)
 	{
-		proj.DestroyProjectile(null);
 	}
 }

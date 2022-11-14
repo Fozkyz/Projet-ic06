@@ -59,6 +59,10 @@ public class ShootComponent
 
 	public void OnMouseButtonReleasedHandler()
 	{
+		if (shootType == ShootType.HOLD)
+		{
+			OnStoppedHoldingEvent.Invoke();
+		}
 		isFiring = false;
 	}
 
