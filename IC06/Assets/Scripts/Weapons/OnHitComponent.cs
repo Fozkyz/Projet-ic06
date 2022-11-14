@@ -31,6 +31,7 @@ public class OnHitComponent
 	{
 		// OnEnemyHitEvent will always be fired before OnLastEnemyHitEvent,
 		// so there's no need to calculate damage amount (unless we want additional damage...)
+		DestroyProjectile(proj);
 	}
 
 	private void OnWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
@@ -39,9 +40,31 @@ public class OnHitComponent
 
 	private void OnLastWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
 	{
+		DestroyProjectile(proj);
 	}
 
 	private void OnLifetimeElapsedHandler(Projectile proj)
 	{
+		DestroyProjectile(proj);
+	}
+
+	private void DestroyProjectile(Projectile proj)
+	{
+		if (explosionParticleSystem != null)
+		{
+			GameObject.Instantiate(explosionParticleSystem, proj.transform.position, Quaternion.identity);
+		}
+		GameObject.Destroy(proj.gameObject);
+
+		Collider2D[] cols = Physics2D.OverlapCircleAll(proj.transform.position, onHitExplosionRadius);
+		foreach (Collider2D col in cols)
+		{
+			Enemy enemy = col.GetComponent<Enemy>();
+			if (enemy != null)
+			{
+				enemy.TakeDamage(onHitExplosionDamage);
+				continue;
+			}
+		}
 	}
 }

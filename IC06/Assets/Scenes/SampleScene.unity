@@ -325,7 +325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000047683716, y: 1.2000003, z: -10}
+  m_LocalPosition: {x: -0.00000023841858, y: 1.2000003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -429,7 +429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654492922}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000047683716, y: 1.2000003, z: -10}
+  m_LocalPosition: {x: -0.00000023841858, y: 1.2000003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2023,7 +2023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f10fabcbb75d9a4a9e1c1d92608602f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSO: {fileID: 11400000, guid: d225e79c26d112b49833368a11778e83, type: 2}
+  weaponSO: {fileID: 11400000, guid: 5eabdbf18b6562a488f964d4a148ff4e, type: 2}
   shootFrom: {fileID: 876119511}
   playerGraphics: {fileID: 780433016}
 --- !u!1 &1581167414

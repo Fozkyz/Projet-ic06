@@ -11,8 +11,6 @@ public class Projectile : MonoBehaviour
 	public UnityEvent<Projectile, Transform, Vector2> OnLastWallHitEvent;
 	public UnityEvent<Projectile> OnLifetimeElapsedEvent;
 
-	[SerializeField] ParticleSystem particles;
-
 	[field: SerializeField] public ProjectileType ProjectileType { get; set; }
 	[field: SerializeField] public float LifeTime { get; set; }
 	[field: SerializeField] public float Size { get; set; }
@@ -178,15 +176,6 @@ public class Projectile : MonoBehaviour
 		return positions;
 	}
 
-	private void DestroyProjectile()
-	{
-		if (particles != null)
-		{
-			Instantiate(particles, transform.position, Quaternion.identity);
-		}
-		Destroy(gameObject);
-	}
-
 	private void Start()
 	{
 		refreshTime = Time.deltaTime * 5;
@@ -251,7 +240,6 @@ public class Projectile : MonoBehaviour
 	IEnumerator DoLifeTime()
 	{
 		yield return new WaitForSeconds(LifeTime);
-		DestroyProjectile();
 		OnLifetimeElapsedEvent.Invoke(this);
 	}
 }
