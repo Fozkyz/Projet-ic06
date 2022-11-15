@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine.Events;
 using UnityEngine;
 
+public enum ShootType { FULL_AUTO, SEMI_AUTO, HOLD, CHARGED};
 [System.Serializable]
 public class ShootComponent
 {
@@ -11,7 +12,6 @@ public class ShootComponent
 	public UnityEvent OnStoppedHoldingEvent;
 	public UnityEvent OnCanceledChargeEvent;
 
-	enum ShootType { FULL_AUTO, SEMI_AUTO, HOLD, CHARGED};
 	[SerializeField] private ShootType shootType;
 
 	[SerializeField] private float fireRate;
@@ -61,6 +61,11 @@ public class ShootComponent
 			OnStoppedHoldingEvent.Invoke();
 		}
 		isFiring = false;
+	}
+
+	public ShootType GetShootType()
+	{
+		return shootType;
 	}
 
 	async Task StartFiringFullAuto()

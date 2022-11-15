@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
-  m_Name: Hold Laser
+  m_Name: Charged Laser
   m_EditorClassIdentifier: 
   shootComponent:
     OnShootEvent:
@@ -22,9 +22,9 @@ MonoBehaviour:
     OnCanceledChargeEvent:
       m_PersistentCalls:
         m_Calls: []
-    shootType: 2
-    fireRate: 5
-    chargeTime: 2
+    shootType: 3
+    fireRate: 2
+    chargeTime: 0.6
   projectileComponent:
     OnProjectileFiredEvent:
       m_PersistentCalls:
@@ -32,18 +32,18 @@ MonoBehaviour:
     OnHitscanFiredEvent:
       m_PersistentCalls:
         m_Calls: []
-    projectileGO: {fileID: 8173395622551102823, guid: bee4713cfaef14948a0b3fc603b3f996, type: 3}
+    projectileGO: {fileID: 8173395622551102823, guid: e6169500dfc9a3c4eb4f361527cec33f, type: 3}
     projectileSprite: {fileID: 0}
     projectileType: 1
     overrideProjectileAttributes: 1
     projectileSpeed: 10
-    projectileSize: 0.2
-    projectileLifetime: 5
-    projectileRange: 10
-    projectileEnemiesToGoThrough: 1
-    projectileNumberOfBounces: 1
+    projectileSize: 0.4
+    projectileLifetime: 0.8
+    projectileRange: 8
+    projectileEnemiesToGoThrough: 50
+    projectileNumberOfBounces: 0
     isProjectileAffectedByGravity: 0
-    folowsMouse: 1
+    folowsMouse: 0
   onHitComponent:
     onHitDamage: 4
     explosionParticleSystem: {fileID: 0}

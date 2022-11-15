@@ -50,6 +50,8 @@ public class Weapon : MonoBehaviour
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetProjectileComponent().OnStoppedHoldingHandler);
 
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
+
+			weaponSO.GetOnHitComponent().DestroyOnHit = weaponSO.GetShootComponent().GetShootType() != ShootType.HOLD;
 		}
 	}
 

@@ -46,7 +46,7 @@ MonoBehaviour:
     folowsMouse: 0
   onHitComponent:
     onHitDamage: 1
-    explosionParticleSystem: {fileID: 0}
+    explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}
     onHitExplosionSprite: {fileID: 0}
     onHitExplosionRadius: 0
     onHitExplosionDamage: 0

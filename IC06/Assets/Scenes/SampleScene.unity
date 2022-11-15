@@ -2023,7 +2023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f10fabcbb75d9a4a9e1c1d92608602f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSO: {fileID: 11400000, guid: 5eabdbf18b6562a488f964d4a148ff4e, type: 2}
+  weaponSO: {fileID: 11400000, guid: 1213c23fe269d1b469fafab6fab7016d, type: 2}
   shootFrom: {fileID: 876119511}
   playerGraphics: {fileID: 780433016}
 --- !u!1 &1581167414

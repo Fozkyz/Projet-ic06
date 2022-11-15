@@ -220,7 +220,7 @@ public class Projectile : MonoBehaviour
 				{
 					yield return new WaitForSeconds(refreshTime);
 					Vector2 currPos = Camera.main.WorldToScreenPoint(transform.position);
-					Direction = new Vector2(Input.mousePosition.x - currPos.x, Input.mousePosition.y - currPos.y);
+					Direction = new Vector2(Input.mousePosition.x - currPos.x, Input.mousePosition.y - currPos.y).normalized;
 					rb.velocity = Direction * Speed;
 				}
 			case ProjectileType.HITSCAN:
@@ -228,7 +228,7 @@ public class Projectile : MonoBehaviour
 				{
 					yield return new WaitForSeconds(refreshTime);
 					Vector2 shootFromPos = Camera.main.WorldToScreenPoint(ShootFrom.position);
-					Direction = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y);
+					Direction = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y).normalized;
 					SetLineRendererPositions();
 				}
 			default:

@@ -12,6 +12,8 @@ public class OnHitComponent
 	[SerializeField] private int onHitExplosionDamage;
 	[SerializeField] private bool onHitExplosionHitsPlayer;
 
+	public bool DestroyOnHit { get; set; }
+
     public void OnProjectileFiredHandler(Projectile proj)
 	{
 		proj.OnEnemyHitEvent.AddListener(OnEnemyHitHandler);
@@ -31,7 +33,8 @@ public class OnHitComponent
 	{
 		// OnEnemyHitEvent will always be fired before OnLastEnemyHitEvent,
 		// so there's no need to calculate damage amount (unless we want additional damage...)
-		DestroyProjectile(proj);
+		if (DestroyOnHit)
+			DestroyProjectile(proj);
 	}
 
 	private void OnWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
@@ -40,12 +43,14 @@ public class OnHitComponent
 
 	private void OnLastWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
 	{
-		DestroyProjectile(proj);
+		if (DestroyOnHit)
+			DestroyProjectile(proj);
 	}
 
 	private void OnLifetimeElapsedHandler(Projectile proj)
 	{
-		DestroyProjectile(proj);
+		if (DestroyOnHit)
+			DestroyProjectile(proj);
 	}
 
 	private void DestroyProjectile(Projectile proj)
