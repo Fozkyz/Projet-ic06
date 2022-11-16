@@ -65,17 +65,7 @@ public class ProjectileComponent
 		{
 			projectileInstance = GameObject.Instantiate(projectileGO);
 		}
-		//GameObject projectileGO = new GameObject();
 		projectileInstance.transform.position = shootFrom.position;
-
-			//Rigidbody2D rb = projectileInstance.GetComponent<Rigidbody2D>();
-			//if (rb == null)
-			//{
-			//	rb = projectileInstance.AddComponent<Rigidbody2D>();
-			//}
-			//rb.velocity = dir * projectileSpeed;
-			//rb.useFullKinematicContacts = true;
-			//rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
 		Projectile projectile = projectileInstance.GetComponent<Projectile>();
 		if (projectile == null)
@@ -84,10 +74,6 @@ public class ProjectileComponent
 		}
 		if (overrideProjectileAttributes)
 		{
-			//rb.isKinematic = !isProjectileAffectedByGravity;
-
-			//projectileInstance.transform.localScale = Vector3.one * projectileSize;
-
 			projectile.ProjectileType = projectileType;
 			projectile.LifeTime = projectileLifetime;
 			projectile.Size = projectileSize;

@@ -17,25 +17,25 @@ public class ShootComponent
 	[SerializeField] private float fireRate;
 	[SerializeField] private float chargeTime;
 
-	private bool isFiring;
-	private bool onCooldown;
+	public bool IsFiring { get; set; }
+	public bool OnCooldown { get; set; }
 
 	Task shootTask;
 
 	public void OnMouseButtonPressedHandler()
 	{
-		isFiring = true;
+		IsFiring = true;
 		switch(shootType)
 		{
 			case ShootType.FULL_AUTO:
-				if (!onCooldown)
+				if (!OnCooldown)
 				{
 					shootTask = StartFiringFullAuto();
 				}
 				break;
 
 			case ShootType.SEMI_AUTO:
-				if (!onCooldown)
+				if (!OnCooldown)
 				{
 					shootTask = StartFiringSemiAuto();
 				}
@@ -46,7 +46,7 @@ public class ShootComponent
 				break;
 
 			case ShootType.CHARGED:
-				if (!onCooldown)
+				if (!OnCooldown)
 				{
 					shootTask = StartFiringCharged();
 				}
@@ -60,7 +60,7 @@ public class ShootComponent
 		{
 			OnStoppedHoldingEvent.Invoke();
 		}
-		isFiring = false;
+		IsFiring = false;
 	}
 
 	public ShootType GetShootType()
@@ -70,30 +70,30 @@ public class ShootComponent
 
 	async Task StartFiringFullAuto()
 	{
-		onCooldown = true;
-		while(isFiring)
+		OnCooldown = true;
+		while(IsFiring)
 		{
 			OnShootEvent.Invoke();
 			await Task.Delay((int) (1000 / fireRate));
 		}
-		onCooldown = false;
+		OnCooldown = false;
 	}
 
 	async Task StartFiringSemiAuto()
 	{
-		onCooldown = true;
+		OnCooldown = true;
 		OnShootEvent.Invoke();
 		await Task.Delay((int)(1000 / fireRate));
-		onCooldown = false;
+		OnCooldown = false;
 	}
 
 	async Task StartFiringCharged()
 	{
-		onCooldown = true;
+		OnCooldown = true;
 		var end = Time.time + chargeTime;
 		while (Time.time < end)
 		{
-			if (!isFiring)
+			if (!IsFiring)
 			{
 				OnCanceledChargeEvent.Invoke();
 				return;
@@ -101,6 +101,6 @@ public class ShootComponent
 			await Task.Yield();
 		}
 		OnShootEvent.Invoke();
-		onCooldown = false;
+		OnCooldown = false;
 	}
 }

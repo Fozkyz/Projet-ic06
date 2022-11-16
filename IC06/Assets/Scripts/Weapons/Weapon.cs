@@ -42,6 +42,9 @@ public class Weapon : MonoBehaviour
 			weaponSO.GetShootComponent().OnCanceledChargeEvent = new UnityEvent();
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent = new UnityEvent<Projectile>();
 
+			weaponSO.GetShootComponent().IsFiring = false;
+			weaponSO.GetShootComponent().OnCooldown = false;
+
 			mouseButtonPressedEvent.AddListener(weaponSO.GetShootComponent().OnMouseButtonPressedHandler);
 			mouseButtonReleasedEvent.AddListener(weaponSO.GetShootComponent().OnMouseButtonReleasedHandler);
 			shootProjectileEvent.AddListener(weaponSO.GetProjectileComponent().OnShootProjectileHandler);

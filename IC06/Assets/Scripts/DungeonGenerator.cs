@@ -146,20 +146,17 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void Start()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		GameObject go = GameObject.Find("Dungeon");
+		if (go != null)
 		{
-			GameObject go = GameObject.Find("Dungeon");
-			if (go != null)
-			{
-				Destroy(go);
-			}
-
-			GenerateDungeon(roomCount);
-			BuildDungeon();
-			LinkPortals();
+			Destroy(go);
 		}
+
+		GenerateDungeon(roomCount);
+		BuildDungeon();
+		LinkPortals();
 	}
 
 	private bool IsTop(RoomDirection room)

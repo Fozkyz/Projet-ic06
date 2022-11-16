@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
 
 	private bool _isActive;
 	void Awake() => Invoke(nameof(Activate), 0.5f);
-	void Activate() => _isActive = true;
+	public void Activate() => _isActive = true;
+	public void Deactivate() => _isActive = false;
 
 	void Start()
 	{

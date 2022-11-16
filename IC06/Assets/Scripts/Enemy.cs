@@ -21,4 +21,14 @@ public class Enemy : MonoBehaviour
 	{
 		currentHealth = maxHealth;
 	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		PlayerHealth player = collision.transform.GetComponent<PlayerHealth>();
+		if (player != null)
+		{
+			player.TakeDamage();
+			return;
+		}
+	}
 }
