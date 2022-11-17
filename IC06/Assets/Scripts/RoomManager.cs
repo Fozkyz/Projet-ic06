@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-	[SerializeField] private List<Enemy> _roomEnemies;
+	private List<Enemy> _roomEnemies;
 
 	private bool _isActiveRoom;
 
@@ -23,7 +23,21 @@ public class RoomManager : MonoBehaviour
 		tpManager.OnPlayerEnteredRoomEvent.AddListener(OnPlayerEnteredRoomHandler);
 		tpManager.OnPlayerLeftRoomEvent.AddListener(OnPlayerLeftRoomHandler);
 
-		SetActiveRoom(false);
+		_roomEnemies = new List<Enemy>();
+		foreach (Enemy enemy in transform.parent.GetComponentsInChildren<Enemy>())
+		{
+			_roomEnemies.Add(enemy);
+		}
+
+		//SetActiveRoom(false);
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Return))
+		{
+			SetActiveRoom(false);
+		}
 	}
 
 	private void OnPlayerEnteredRoomHandler(PlayerController player, Teleporter teleporter)
