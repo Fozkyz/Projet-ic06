@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
 	[SerializeField] private float cooldownTime = 0f;
+
+	public UnityEvent<PlayerController, Teleporter> OnPlayerUsedTeleporterInEvent;
+	public UnityEvent<PlayerController, Teleporter> OnPlayerUsedTeleporterOutEvent;
 
 	private Teleporter linkedTeleporter;
 	private float timeSinceUsed;
@@ -18,6 +22,13 @@ public class Teleporter : MonoBehaviour
 	{
 		player.transform.position = transform.position;
 		timeSinceUsed = 0f;
+		OnPlayerUsedTeleporterInEvent.Invoke(player, this);
+	}
+
+	private void Awake()
+	{
+		OnPlayerUsedTeleporterInEvent = new UnityEvent<PlayerController, Teleporter>();
+		OnPlayerUsedTeleporterOutEvent = new UnityEvent<PlayerController, Teleporter>();
 	}
 
 	private void Update()
@@ -33,6 +44,7 @@ public class Teleporter : MonoBehaviour
 			if (player != null)
 			{
 				linkedTeleporter.TeleportPlayer(player);
+				OnPlayerUsedTeleporterOutEvent.Invoke(player, this);
 			}
 		}
 	}

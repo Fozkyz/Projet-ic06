@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour
 	[field: SerializeField] public int EnemiesToGoThrough { get; set; }
 	[field: SerializeField] public int NumberOfBounces { get; set; }
 	[field: SerializeField] public bool IsAffectedByGravity { get; set; }
+	[field: SerializeField] public bool DontDestroyOnHit { get; set; }
 	[field: SerializeField] public bool FolowsMouse { get; set; }
 
 	[HideInInspector] public Vector2 Direction { get; set; }
@@ -31,8 +32,9 @@ public class Projectile : MonoBehaviour
 	private LayerMask enemyLayer;
 
 	private int bounces;
-
 	private float refreshTime;
+	private Vector2 velocity;
+	private bool isActive;
 
 	private List<Transform> previousHits;
 
@@ -63,6 +65,22 @@ public class Projectile : MonoBehaviour
 		{
 			StartCoroutine("DoLifeTime");
 		}
+	}
+
+	public Vector2 GetProjectileEndPoint()
+	{
+		switch (ProjectileType)
+		{
+			case ProjectileType.PROJECTILE:
+				return transform.position;
+			case ProjectileType.HITSCAN:
+				if (lr.positionCount > 0)
+				{
+					return lr.GetPosition(lr.positionCount - 1);
+				}
+				break;
+		}
+		return Vector2.zero;
 	}
 
 	private void LaunchProjectile()
@@ -179,6 +197,28 @@ public class Projectile : MonoBehaviour
 	private void Start()
 	{
 		refreshTime = Time.deltaTime * 5;
+		isActive = true;
+		GameManager.Instance.OnGamePausedEvent.AddListener(OnGamePausedHandler);
+		GameManager.Instance.OnGameResumeEvent.AddListener(OnGameResumeHandler);
+	}
+
+	private void OnGamePausedHandler()
+	{
+		isActive = false;
+		if (rb != null)
+		{
+			velocity = rb.velocity;
+			rb.velocity = Vector2.zero;
+		}
+	}
+
+	private void OnGameResumeHandler()
+	{
+		isActive = true;
+		if (rb != null)
+		{
+			rb.velocity = velocity;
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -218,23 +258,36 @@ public class Projectile : MonoBehaviour
 			case ProjectileType.PROJECTILE:
 				while(true)
 				{
-					yield return new WaitForSeconds(refreshTime);
-					Vector2 currPos = Camera.main.WorldToScreenPoint(transform.position);
-					Direction = new Vector2(Input.mousePosition.x - currPos.x, Input.mousePosition.y - currPos.y).normalized;
-					rb.velocity = Direction * Speed;
+					if (isActive)
+					{
+						yield return new WaitForSeconds(refreshTime);
+						Vector2 currPos = Camera.main.WorldToScreenPoint(transform.position);
+						Direction = new Vector2(Input.mousePosition.x - currPos.x, Input.mousePosition.y - currPos.y).normalized;
+						rb.velocity = Direction * Speed;
+					}
+					else
+					{
+						yield return new WaitForSeconds(refreshTime);
+					}
 				}
 			case ProjectileType.HITSCAN:
 				while (true)
 				{
-					yield return new WaitForSeconds(refreshTime);
-					Vector2 shootFromPos = Camera.main.WorldToScreenPoint(ShootFrom.position);
-					Direction = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y).normalized;
-					SetLineRendererPositions();
+					if (isActive)
+					{
+						yield return new WaitForSeconds(refreshTime);
+						Vector2 shootFromPos = Camera.main.WorldToScreenPoint(ShootFrom.position);
+						Direction = new Vector2(Input.mousePosition.x - shootFromPos.x, Input.mousePosition.y - shootFromPos.y).normalized;
+						SetLineRendererPositions();
+					}
+					else
+					{
+						yield return new WaitForSeconds(refreshTime);
+					}
 				}
 			default:
 				break;
 		}
-		
 	}
 
 	IEnumerator DoLifeTime()

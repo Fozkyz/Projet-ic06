@@ -12,8 +12,6 @@ public class OnHitComponent
 	[SerializeField] private int onHitExplosionDamage;
 	[SerializeField] private bool onHitExplosionHitsPlayer;
 
-	public bool DestroyOnHit { get; set; }
-
     public void OnProjectileFiredHandler(Projectile proj)
 	{
 		proj.OnEnemyHitEvent.AddListener(OnEnemyHitHandler);
@@ -25,7 +23,7 @@ public class OnHitComponent
 
 	private void OnEnemyHitHandler(Projectile proj, Enemy enemy)
 	{
-		enemy.TakeDamage(onHitDamage);
+		enemy.TakeDamage(onHitDamage, false);
 		// Spawn particle effects
 	}
 
@@ -33,7 +31,7 @@ public class OnHitComponent
 	{
 		// OnEnemyHitEvent will always be fired before OnLastEnemyHitEvent,
 		// so there's no need to calculate damage amount (unless we want additional damage...)
-		if (DestroyOnHit)
+		if (!proj.DontDestroyOnHit)
 			DestroyProjectile(proj);
 	}
 
@@ -43,32 +41,34 @@ public class OnHitComponent
 
 	private void OnLastWallHitHandler(Projectile proj, Transform wall, Vector2 hitPos)
 	{
-		if (DestroyOnHit)
+		if (!proj.DontDestroyOnHit)
 			DestroyProjectile(proj);
 	}
 
 	private void OnLifetimeElapsedHandler(Projectile proj)
 	{
-		if (DestroyOnHit)
-			DestroyProjectile(proj);
+		DestroyProjectile(proj);
 	}
 
 	private void DestroyProjectile(Projectile proj)
 	{
 		if (explosionParticleSystem != null)
 		{
-			GameObject.Instantiate(explosionParticleSystem, proj.transform.position, Quaternion.identity);
+			GameObject.Instantiate(explosionParticleSystem, proj.GetProjectileEndPoint(), Quaternion.identity);
 		}
 		GameObject.Destroy(proj.gameObject);
 
-		Collider2D[] cols = Physics2D.OverlapCircleAll(proj.transform.position, onHitExplosionRadius);
-		foreach (Collider2D col in cols)
+		if (onHitExplosionDamage > 0)
 		{
-			Enemy enemy = col.GetComponent<Enemy>();
-			if (enemy != null)
+			Collider2D[] cols = Physics2D.OverlapCircleAll(proj.GetProjectileEndPoint(), onHitExplosionRadius);
+			foreach (Collider2D col in cols)
 			{
-				enemy.TakeDamage(onHitExplosionDamage);
-				continue;
+				Enemy enemy = col.GetComponent<Enemy>();
+				if (enemy != null)
+				{
+					enemy.TakeDamage(onHitExplosionDamage, true);
+					continue;
+				}
 			}
 		}
 	}

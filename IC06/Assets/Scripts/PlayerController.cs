@@ -23,10 +23,24 @@ public class PlayerController : MonoBehaviour
 	void Start()
 	{
 		playerAnimator = playerGraphics.GetComponent<Animator>();
+		GameManager.Instance.OnGamePausedEvent.AddListener(OnGamePausedHandler);
+		GameManager.Instance.OnGameResumeEvent.AddListener(OnGameResumeHandler);
 	}
 
 	void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			if (_isActive)
+			{
+				GameManager.Instance.PauseGame();
+			}
+			else
+			{
+				GameManager.Instance.ResumeGame();
+			}
+		}
+
 		if (!_isActive)
 		{
 			return;
@@ -38,16 +52,7 @@ public class PlayerController : MonoBehaviour
 		GatherInput();
 		RunCollisionChecks();
 
-		//InputFrame.Horizontal
 		playerAnimator.SetFloat("Speed", InputFrame.Horizontal);
-		//if (facingRight && InputFrame.Horizontal < 0f || !facingRight && InputFrame.Horizontal > 0f)
-		//{
-		//	facingRight = !facingRight;
-		//	//Vector3 rot = playerGraphics.rotation.eulerAngles;
-		//	//playerGraphics.rotation.SetEulerAngles(rot.x, rot.y, rot.z);
-		//	//playerGraphics.Rotate(playerGraphics.up, 180f);
-		//	//playerAnimator.SetBool("Mirror", facingRight);
-		//}
 
 		CalculateWalk(); // Horizontal movement
 		CalculateJumpApex(); // Affects fall speed, so calculate before gravity
@@ -55,6 +60,16 @@ public class PlayerController : MonoBehaviour
 		CalculateJump(); // Possibly override vertical
 
 		MoveCharacter();
+	}
+
+	private void OnGamePausedHandler()
+	{
+		_isActive = false;
+	}
+
+	private void OnGameResumeHandler()
+	{
+		_isActive = true;
 	}
 
 	#region Input

@@ -24,6 +24,7 @@ public class ProjectileComponent
 	[SerializeField] private int projectileEnemiesToGoThrough;
 	[SerializeField] private int projectileNumberOfBounces;
 	[SerializeField] private bool isProjectileAffectedByGravity;
+	[SerializeField] private bool dontDestroyProjectileOnHit;
 	[SerializeField] private bool folowsMouse;
 
 	private GameObject projectileInstance;
@@ -82,6 +83,7 @@ public class ProjectileComponent
 			projectile.EnemiesToGoThrough = projectileEnemiesToGoThrough;
 			projectile.NumberOfBounces = projectileNumberOfBounces;
 			projectile.IsAffectedByGravity = isProjectileAffectedByGravity;
+			projectile.DontDestroyOnHit = dontDestroyProjectileOnHit;
 			projectile.FolowsMouse = folowsMouse;
 			projectile.Direction = dir;
 			projectile.ShootFrom = shootFrom;
@@ -93,7 +95,7 @@ public class ProjectileComponent
 		projectile.OnLastWallHitEvent = new UnityEvent<Projectile, Transform, Vector2>();
 		projectile.OnLifetimeElapsedEvent = new UnityEvent<Projectile>();
 
-		projectile.Launch();
 		OnProjectileFiredEvent.Invoke(projectile);
+		projectile.Launch();
 	}
 }

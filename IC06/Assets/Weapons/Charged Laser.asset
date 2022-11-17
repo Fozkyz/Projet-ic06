@@ -43,9 +43,10 @@ MonoBehaviour:
     projectileEnemiesToGoThrough: 50
     projectileNumberOfBounces: 0
     isProjectileAffectedByGravity: 0
+    dontDestroyProjectileOnHit: 1
     folowsMouse: 0
   onHitComponent:
-    onHitDamage: 4
+    onHitDamage: 10
     explosionParticleSystem: {fileID: 0}
     onHitExplosionSprite: {fileID: 0}
     onHitExplosionRadius: 0

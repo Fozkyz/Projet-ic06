@@ -1,17 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private PlayerController player;
+	public static GameManager Instance { get; private set; }
+	[field: SerializeField] public PlayerController Player { get; set; }
+	public UnityEvent OnGamePausedEvent, OnGameResumeEvent;
+	public bool IsGamePaused;
+
+
+	[SerializeField] private GameObject _pauseScreen;
 
 	private Vector2 startPos;
 
+	public void GameOver()
+	{
+		if (!IsGamePaused)
+		{
+			IsGamePaused = true;
+			OnGamePausedEvent.Invoke();
+		}
+	}
+
+	public void PauseGame()
+	{
+		if (!IsGamePaused)
+		{
+			IsGamePaused = true;
+			OnGamePausedEvent.Invoke();
+			_pauseScreen.SetActive(true);
+		}
+	}
+
+	public void ResumeGame()
+	{
+		if (IsGamePaused)
+		{
+			IsGamePaused = false;
+			OnGameResumeEvent.Invoke();
+			_pauseScreen.SetActive(false);
+		}
+	}
+
 	public void ResetPlayerPosition()
 	{
-		player.transform.position = startPos;
+		Player.transform.position = startPos;
 	}
 
 	public void ReturnToMainMenu()
@@ -26,9 +62,22 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		if (player != null)
+		if (Player != null)
 		{
-			startPos = player.transform.position;
+			startPos = Player.transform.position;
+		}
+		_pauseScreen.SetActive(false);
+	}
+
+	private void Awake()
+	{
+		if (Instance != null && Instance != this)
+		{
+			Destroy(this);
+		}
+		else
+		{
+			Instance = this;
 		}
 	}
 }

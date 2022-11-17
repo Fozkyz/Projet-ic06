@@ -157,6 +157,14 @@ public class DungeonGenerator : MonoBehaviour
 		GenerateDungeon(roomCount);
 		BuildDungeon();
 		LinkPortals();
+
+		Invoke(nameof(SetFirstRoomActive), 1f);
+	}
+
+	private void SetFirstRoomActive()
+	{
+		RoomManager rm = teleporterManagers[new Vector2Int(dungeonSize.x / 2, dungeonSize.y / 2)].GetComponent<RoomManager>();
+		rm.SetActiveRoom(true);
 	}
 
 	private bool IsTop(RoomDirection room)

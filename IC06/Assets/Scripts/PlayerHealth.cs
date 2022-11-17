@@ -24,12 +24,13 @@ public class PlayerHealth : MonoBehaviour
 	public void TakeDamage()
 	{
 		_currentHealth--;
-		_heartImages[_currentHealth].enabled = false;
+		_heartImages[_currentHealth % _heartImages.Count].enabled = false;
 		if (_currentHealth == 0)
 		{
 			// Game over
 			_player.Deactivate();
 			_gameOverScreen.SetActive(true);
+			GameManager.Instance.GameOver();
 		}
 	}
 
