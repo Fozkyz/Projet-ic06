@@ -146,20 +146,25 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void Start()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		GameObject go = GameObject.Find("Dungeon");
+		if (go != null)
 		{
-			GameObject go = GameObject.Find("Dungeon");
-			if (go != null)
-			{
-				Destroy(go);
-			}
-
-			GenerateDungeon(roomCount);
-			BuildDungeon();
-			LinkPortals();
+			Destroy(go);
 		}
+
+		GenerateDungeon(roomCount);
+		BuildDungeon();
+		LinkPortals();
+
+		Invoke(nameof(SetFirstRoomActive), 1f);
+	}
+
+	private void SetFirstRoomActive()
+	{
+		RoomManager rm = teleporterManagers[new Vector2Int(dungeonSize.x / 2, dungeonSize.y / 2)].GetComponent<RoomManager>();
+		rm.SetActiveRoom(true);
 	}
 
 	private bool IsTop(RoomDirection room)

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
+  m_Name: Grenade Launcher
+  m_EditorClassIdentifier: 
+  shootComponent:
+    OnShootEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStoppedHoldingEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCanceledChargeEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    shootType: 1
+    fireRate: 0.8
+    chargeTime: 0
+  projectileComponent:
+    OnProjectileFiredEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    OnHitscanFiredEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    projectileGO: {fileID: 8173395622551102823, guid: 9b3cb31a2b43eef4cb1324929af49860, type: 3}
+    projectileSprite: {fileID: 0}
+    projectileType: 0
+    overrideProjectileAttributes: 1
+    projectileSpeed: 14
+    projectileSize: 1
+    projectileLifetime: 2
+    projectileRange: 0
+    projectileEnemiesToGoThrough: 0
+    projectileNumberOfBounces: 2
+    isProjectileAffectedByGravity: 1
+    folowsMouse: 0
+  onHitComponent:
+    onHitDamage: 1
+    explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}
+    onHitExplosionSprite: {fileID: 0}
+    onHitExplosionRadius: 2
+    onHitExplosionDamage: 10
+    onHitExplosionHitsPlayer: 0

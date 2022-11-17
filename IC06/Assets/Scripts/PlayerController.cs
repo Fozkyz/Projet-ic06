@@ -17,10 +17,30 @@ public class PlayerController : MonoBehaviour
 
 	private bool _isActive;
 	void Awake() => Invoke(nameof(Activate), 0.5f);
-	void Activate() => _isActive = true;
+	public void Activate() => _isActive = true;
+	public void Deactivate() => _isActive = false;
 
-    void Update()
+	void Start()
 	{
+		playerAnimator = playerGraphics.GetComponent<Animator>();
+		GameManager.Instance.OnGamePausedEvent.AddListener(OnGamePausedHandler);
+		GameManager.Instance.OnGameResumeEvent.AddListener(OnGameResumeHandler);
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			if (_isActive)
+			{
+				GameManager.Instance.PauseGame();
+			}
+			else
+			{
+				GameManager.Instance.ResumeGame();
+			}
+		}
+
 		if (!_isActive)
 		{
 			return;
@@ -32,12 +52,24 @@ public class PlayerController : MonoBehaviour
 		GatherInput();
 		RunCollisionChecks();
 
+		playerAnimator.SetFloat("Speed", InputFrame.Horizontal);
+
 		CalculateWalk(); // Horizontal movement
 		CalculateJumpApex(); // Affects fall speed, so calculate before gravity
 		CalculateGravity(); // Vertical movement
 		CalculateJump(); // Possibly override vertical
 
 		MoveCharacter();
+	}
+
+	private void OnGamePausedHandler()
+	{
+		_isActive = false;
+	}
+
+	private void OnGameResumeHandler()
+	{
+		_isActive = true;
 	}
 
 	#region Input
@@ -58,6 +90,10 @@ public class PlayerController : MonoBehaviour
 	}
 
 	#endregion
+
+	[Header("Graphics")]
+	[SerializeField] private Transform playerGraphics;
+	private Animator playerAnimator;
 
 	#region Collisions
 
@@ -154,11 +190,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    #endregion
+	#endregion
 
-    #region Walk
+	#region Walk
 
-    [Header("Walk")]
+	[Header("Walk")]
 	[SerializeField] private float _acceleration = 90;
 	[SerializeField] private float _moveClamp = 13;
 	[SerializeField] private float _deceleration = 60f;
