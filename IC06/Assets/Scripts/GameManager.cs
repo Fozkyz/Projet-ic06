@@ -66,7 +66,10 @@ public class GameManager : MonoBehaviour
 		{
 			startPos = Player.transform.position;
 		}
-		_pauseScreen.SetActive(false);
+		if (_pauseScreen != null)
+		{
+			_pauseScreen.SetActive(false);
+		}
 	}
 
 	private void Awake()

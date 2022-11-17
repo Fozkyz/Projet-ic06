@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TeleporterManager : MonoBehaviour
 {
+	[SerializeField] private SpriteRenderer background;
 	[SerializeField] private Teleporter leftTeleporter;
 	[SerializeField] private Teleporter rightTeleporter;
 	[SerializeField] private Teleporter topTeleporter;
@@ -31,6 +32,18 @@ public class TeleporterManager : MonoBehaviour
 	public Teleporter GetBotTeleporter()
 	{
 		return bottomTeleporter;
+	}
+
+	public void SetBackgroundImage(Sprite newSprite)
+	{
+		if (background != null)
+		{
+			Vector3 t = background.transform.position;
+			t.z = 1;
+			background.transform.position = t;
+			background.sortingOrder = 0;
+			background.sprite = newSprite;
+		}
 	}
 
 	private void Start()

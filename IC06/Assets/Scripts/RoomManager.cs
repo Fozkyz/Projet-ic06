@@ -13,7 +13,10 @@ public class RoomManager : MonoBehaviour
 		_isActiveRoom = newIsActive;
 		foreach (Enemy enemy in _roomEnemies)
 		{
-			enemy.SetActive(_isActiveRoom);
+			if (enemy != null)
+			{
+				enemy.SetActive(_isActiveRoom);
+			}
 		}
 	}
 
