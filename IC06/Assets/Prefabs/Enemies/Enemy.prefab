@@ -245,7 +245,7 @@ MonoBehaviour:
   _maxHealth: 10
   _speed: 5
   _detectRange: 5
-  _invicibilityTime: 0.3
+  _invicibilityTime: 0.1
   _patternPointsHolder: {fileID: 2058641801783102380}
 --- !u!50 &966592981866729137
 Rigidbody2D:

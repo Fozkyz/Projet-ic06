@@ -43,9 +43,10 @@ MonoBehaviour:
     projectileEnemiesToGoThrough: 0
     projectileNumberOfBounces: 2
     isProjectileAffectedByGravity: 0
+    dontDestroyProjectileOnHit: 0
     folowsMouse: 0
   onHitComponent:
-    onHitDamage: 1
+    onHitDamage: 3
     explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}
     onHitExplosionSprite: {fileID: 0}
     onHitExplosionRadius: 0

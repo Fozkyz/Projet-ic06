@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour
 					_rb.velocity = Vector2.zero;
 				}
 			}
-			transform.localScale = _rb.velocity.x > 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
+			transform.localScale = _rb.velocity.x >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
 		}
 	}
 
