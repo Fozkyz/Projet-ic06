@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -48,11 +49,17 @@ public class GameManager : MonoBehaviour
 	public void ResetPlayerPosition()
 	{
 		Player.transform.position = startPos;
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	public void ReturnToMainMenu()
 	{
 		SceneManager.LoadScene(0);
+	}
+
+	public void QuitQame()
+	{
+		Application.Quit();
 	}
 
 	public void LoadNextScene()
@@ -66,7 +73,10 @@ public class GameManager : MonoBehaviour
 		{
 			startPos = Player.transform.position;
 		}
-		_pauseScreen.SetActive(false);
+		if (_pauseScreen != null)
+		{
+			_pauseScreen.SetActive(false);
+		}
 	}
 
 	private void Awake()

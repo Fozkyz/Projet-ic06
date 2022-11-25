@@ -68,6 +68,7 @@ MonoBehaviour:
   <EnemiesToGoThrough>k__BackingField: 0
   <NumberOfBounces>k__BackingField: 0
   <IsAffectedByGravity>k__BackingField: 0
+  <DontDestroyOnHit>k__BackingField: 0
   <FolowsMouse>k__BackingField: 0
 --- !u!120 &8023641825644712901
 LineRenderer:
@@ -109,7 +110,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}

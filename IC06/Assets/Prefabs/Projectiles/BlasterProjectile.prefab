@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b19e13afedf9b014daaa09e0b19165ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -113,7 +113,6 @@ MonoBehaviour:
   OnLifetimeElapsedEvent:
     m_PersistentCalls:
       m_Calls: []
-  particles: {fileID: 0}
   <ProjectileType>k__BackingField: 0
   <LifeTime>k__BackingField: 0
   <Size>k__BackingField: 0
@@ -122,6 +121,8 @@ MonoBehaviour:
   <EnemiesToGoThrough>k__BackingField: 0
   <NumberOfBounces>k__BackingField: 0
   <IsAffectedByGravity>k__BackingField: 0
+  <DontDestroyOnHit>k__BackingField: 0
+  <FolowsMouse>k__BackingField: 0
 --- !u!61 &3858536807934019057
 BoxCollider2D:
   m_ObjectHideFlags: 0

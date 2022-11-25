@@ -8,7 +8,9 @@ public class DungeonGenerator : MonoBehaviour
 	[SerializeField] private Vector2Int dungeonSize;
 	[SerializeField] private int roomCount;
 
+	[SerializeField] List<Room> startingRoomPool;
 	[SerializeField] List<Room> roomPool;
+	[SerializeField] List<Sprite> backgroundImages;
 
 	private RoomDirection[,] dungeon;
 	private Dictionary<Vector2Int, TeleporterManager> teleporterManagers;
@@ -103,9 +105,18 @@ public class DungeonGenerator : MonoBehaviour
 				RoomDirection room = dungeon[i, j];
 				if(room != RoomDirection.NULL && room > RoomDirection.ND)
 				{
-					Vector2Int t = new Vector2Int(i, j);
-					TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-					teleporterManagers[t] = tpManager;
+					if (i == dungeonSize.x / 2 && j == dungeonSize.y / 2)
+					{
+						Vector2Int t = new Vector2Int(i, j);
+						TeleporterManager tpManager = startingRoomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+						teleporterManagers[t] = tpManager;
+					}
+					else
+					{
+						Vector2Int t = new Vector2Int(i, j);
+						TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+						teleporterManagers[t] = tpManager;
+					}
 				}
 			}
 		}
@@ -146,6 +157,22 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
+	public void AddBackgroundImages()
+	{
+		for (int i = 0; i < dungeonSize.x; i++)
+		{
+			for (int j = 0; j < dungeonSize.y; j++)
+			{
+				RoomDirection room = dungeon[i, j];
+				if (room != RoomDirection.NULL && room > RoomDirection.ND)
+				{
+					TeleporterManager tpManager = teleporterManagers[new Vector2Int(i, j)];
+					tpManager.SetBackgroundImage(backgroundImages[Random.Range(0, backgroundImages.Count)]);
+				}
+			}
+		}
+	}
+
 	private void Start()
 	{
 		GameObject go = GameObject.Find("Dungeon");
@@ -157,6 +184,7 @@ public class DungeonGenerator : MonoBehaviour
 		GenerateDungeon(roomCount);
 		BuildDungeon();
 		LinkPortals();
+		AddBackgroundImages();
 
 		Invoke(nameof(SetFirstRoomActive), 1f);
 	}

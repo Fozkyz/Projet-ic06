@@ -39,9 +39,9 @@ MonoBehaviour:
     projectileSpeed: 10
     projectileSize: 0.2
     projectileLifetime: 5
-    projectileRange: 10
-    projectileEnemiesToGoThrough: 1
-    projectileNumberOfBounces: 1
+    projectileRange: 30
+    projectileEnemiesToGoThrough: 3
+    projectileNumberOfBounces: 3
     isProjectileAffectedByGravity: 0
     dontDestroyProjectileOnHit: 1
     folowsMouse: 1

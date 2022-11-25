@@ -8,7 +8,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private float _speed;
 	[SerializeField] private float _detectRange;
 	[SerializeField] private float _invicibilityTime;
-	[SerializeField] private List<Transform> _patternPoints;
+	[SerializeField] private Transform _patternPointsHolder;
+	
+	private List<Transform> _patternPoints;
 
 	private Rigidbody2D _rb;
 	private PlayerController _player;
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
 	public void SetActive(bool newIsActive)
 	{
 		_isActive = newIsActive;
+		_rb.velocity = Vector2.zero;
 	}
 
     public void TakeDamage(int amount, bool bypassInvincibility)
@@ -45,6 +48,12 @@ public class Enemy : MonoBehaviour
 		_currentHealth = _maxHealth;
 		_towardsPointIndex = 0;
 		_lastTimeHit = Time.time - _invicibilityTime;
+
+		_patternPoints = new List<Transform>();
+		foreach (Transform patternPoint in _patternPointsHolder.GetComponentsInChildren<Transform>())
+		{
+			_patternPoints.Add(patternPoint);
+		}
 
 		GameManager.Instance.OnGamePausedEvent.AddListener(OnGamePausedHandler);
 		GameManager.Instance.OnGameResumeEvent.AddListener(OnGameResumeHandler);
@@ -88,6 +97,7 @@ public class Enemy : MonoBehaviour
 					_rb.velocity = Vector2.zero;
 				}
 			}
+			transform.localScale = _rb.velocity.x >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
 		}
 	}
 

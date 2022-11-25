@@ -90,6 +90,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
   - name: Scarf.png
@@ -303,7 +304,8 @@ ScriptedImporter:
     - {x: 8, y: 9}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 47, y: -60}
+    uvTransform: {x: 56, y: 4}
+    spritePosition: {x: 9, y: 64}
   - name: Head.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -535,7 +537,8 @@ ScriptedImporter:
     - {x: 12, y: 13}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -6, y: -26}
+    uvTransform: {x: 4, y: 41}
+    spritePosition: {x: 10, y: 67}
   - name: Right_upper_arm.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -787,7 +790,8 @@ ScriptedImporter:
     - {x: 10, y: 11}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 34, y: 19}
+    uvTransform: {x: 36, y: 65}
+    spritePosition: {x: 2, y: 46}
   - name: Right_lower_arm.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -1001,7 +1005,8 @@ ScriptedImporter:
     - {x: 8, y: 9}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 54, y: -15}
+    uvTransform: {x: 56, y: 22}
+    spritePosition: {x: 2, y: 37}
   - name: Upper_chest.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -1335,7 +1340,8 @@ ScriptedImporter:
     - {x: 23, y: 24}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -2, y: -35}
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 6, y: 39}
   - name: Lower_chest.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -1548,7 +1554,8 @@ ScriptedImporter:
     - {x: 12, y: 13}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -6, y: 29}
+    uvTransform: {x: 4, y: 68}
+    spritePosition: {x: 10, y: 39}
   - name: Left_upper_arm.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -1770,7 +1777,8 @@ ScriptedImporter:
     - {x: 8, y: 9}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 33, y: -5}
+    uvTransform: {x: 56, y: 44}
+    spritePosition: {x: 23, y: 49}
   - name: Left_lower_arm.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -1940,7 +1948,8 @@ ScriptedImporter:
     - {x: 6, y: 7}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 27, y: 28}
+    uvTransform: {x: 56, y: 68}
+    spritePosition: {x: 29, y: 40}
   - name: Right_upper_leg.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -2183,7 +2192,8 @@ ScriptedImporter:
     - {x: 11, y: 12}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -4, y: 70}
+    uvTransform: {x: 4, y: 92}
+    spritePosition: {x: 8, y: 22}
   - name: Right_lower_leg.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -2436,7 +2446,8 @@ ScriptedImporter:
     - {x: 11, y: 12}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 32, y: 30}
+    uvTransform: {x: 36, y: 36}
+    spritePosition: {x: 4, y: 6}
   - name: Left_upper_leg.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -2659,7 +2670,8 @@ ScriptedImporter:
     - {x: 12, y: 13}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 17, y: -14}
+    uvTransform: {x: 36, y: 4}
+    spritePosition: {x: 19, y: 18}
   - name: Left_lower_leg.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -2871,7 +2883,8 @@ ScriptedImporter:
     - {x: 10, y: 11}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 16, y: 89}
+    uvTransform: {x: 36, y: 95}
+    spritePosition: {x: 20, y: 6}
   - name: Left_foot.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -3042,7 +3055,8 @@ ScriptedImporter:
     - {x: 6, y: 7}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 33, y: 89}
+    uvTransform: {x: 56, y: 89}
+    spritePosition: {x: 23, y: 0}
   - name: Right_foot.png
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -3213,7 +3227,8 @@ ScriptedImporter:
     - {x: 6, y: 7}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 52, y: 103}
+    uvTransform: {x: 56, y: 103}
+    spritePosition: {x: 4, y: 0}
   characterData:
     bones:
     - name: Lower_chest
