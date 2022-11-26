@@ -11,6 +11,8 @@ public class Weapon : MonoBehaviour
 	[SerializeField] private Transform shootFrom;
 	[SerializeField] private Transform playerGraphics;
 	[SerializeField] private TextMeshProUGUI weaponText;
+	[SerializeField] private AudioSource shootSource;
+	[SerializeField] private AudioSource hitSource;
 	
 	private Animator playerAnimator;
 	
@@ -52,6 +54,9 @@ public class Weapon : MonoBehaviour
 			mouseButtonPressedEvent = new UnityEvent();
 			mouseButtonReleasedEvent = new UnityEvent();
 			shootProjectileEvent = new UnityEvent<Vector2, Transform>();
+
+			weaponSO.GetSoundComponent().ShootSource = shootSource;
+			weaponSO.GetSoundComponent().HitSource = hitSource;
 
 			weaponSO.GetShootComponent().OnShootEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent = new UnityEvent();

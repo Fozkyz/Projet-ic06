@@ -8,6 +8,7 @@ public class WeaponSO : ScriptableObject
 	[SerializeField] ShootComponent shootComponent;
 	[SerializeField] ProjectileComponent projectileComponent;
 	[SerializeField] OnHitComponent onHitComponent;
+	[SerializeField] SoundComponent soundComponent;
 
 	public ShootComponent GetShootComponent()
 	{
@@ -22,5 +23,10 @@ public class WeaponSO : ScriptableObject
 	public OnHitComponent GetOnHitComponent()
 	{
 		return onHitComponent;
+	}
+
+	public SoundComponent GetSoundComponent()
+	{
+		return soundComponent;
 	}
 }
