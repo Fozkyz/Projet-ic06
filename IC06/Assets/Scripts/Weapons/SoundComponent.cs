@@ -2,35 +2,83 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundComponent : MonoBehaviour
+[System.Serializable]
+public class SoundComponent
 {
 	public AudioSource ShootSource { get; set; }
 	public AudioSource HitSource { get; set; }
+	public AudioSource ExplodeSource { get; set; }
+	public bool LoopClip { get; set; }
 
 	[SerializeField] private AudioClip onShootSound;
 	[SerializeField] private AudioClip onHitSound;
-	
-	private void OnShootHandler()
+	[SerializeField] private AudioClip onStartChargingSound;
+	[SerializeField] private AudioClip onCancelShootSound;
+	[SerializeField] private AudioClip onProjectileExplodeSound;
+
+	public void OnStartChargingHandler()
 	{
-		ShootSource.clip = onShootSound;
-		ShootSource.loop = true;
-		ShootSource.Play();
+		if (ShootSource != null && onStartChargingSound != null)
+		{
+			ShootSource.clip = onStartChargingSound;
+			ShootSource.loop = false;
+			ShootSource.Play();
+		}
 	}
 
-	private void OnProjectileHitHandler(Projectile proj, Enemy enemy)
+	public void OnShootHandler()
 	{
-		HitSource.clip = onHitSound;
-		HitSource.loop = false;
-		HitSource.Play();
+		if (ShootSource != null && onShootSound != null)
+		{
+			ShootSource.clip = onShootSound;
+			ShootSource.loop = LoopClip;
+			ShootSource.Play();
+		}
 	}
 
-	private void OnStopShootingHandler()
+	public void OnProjectileHitHandler(Projectile proj, Enemy enemy)
 	{
-		ShootSource.loop = false;
+		if (HitSource != null && onHitSound != null)
+		{
+			HitSource.clip = onHitSound;
+			HitSource.loop = false;
+			HitSource.Play();
+		}
 	}
 
-	private void OnStoppedHoldingHandler()
+	public void OnStopShootingHandler()
 	{
-		ShootSource.Stop();
+		if (ShootSource != null)
+		{
+			ShootSource.loop = false;
+			if (onCancelShootSound != null)
+			{
+				ShootSource.clip = onCancelShootSound;
+				ShootSource.Play();
+			}
+		}
+	}
+
+	public void OnStoppedHoldingHandler()
+	{
+		if (ShootSource != null)
+		{
+			ShootSource.Stop();
+		}
+	}
+
+	public void OnProjectileExplodeHandler(Projectile proj)
+	{
+		if (ExplodeSource != null && onProjectileExplodeSound != null)
+		{
+			ExplodeSource.clip = onProjectileExplodeSound;
+			ExplodeSource.loop = false;
+			ExplodeSource.Play();
+		}
+	}
+
+	public void OnProjectileFiredHandler(Projectile proj)
+	{
+		proj.OnLifetimeElapsedEvent.AddListener(OnProjectileExplodeHandler);
 	}
 }
