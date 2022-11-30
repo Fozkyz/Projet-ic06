@@ -10,6 +10,7 @@ public class DungeonGenerator : MonoBehaviour
 
 	[SerializeField] List<Room> startingRoomPool;
 	[SerializeField] List<Room> roomPool;
+	[SerializeField] List<Room> shopRoomPool;
 	[SerializeField] List<Sprite> backgroundImages;
 
 	private RoomDirection[,] dungeon;
@@ -95,6 +96,7 @@ public class DungeonGenerator : MonoBehaviour
 
 	public void BuildDungeon()
 	{
+		bool alreadyPlacedShop = false;
 		teleporterManagers = new Dictionary<Vector2Int, TeleporterManager>();
 		GameObject holder = new GameObject();
 		holder.name = "Dungeon";
@@ -108,18 +110,60 @@ public class DungeonGenerator : MonoBehaviour
 					if (i == dungeonSize.x / 2 && j == dungeonSize.y / 2)
 					{
 						Vector2Int t = new Vector2Int(i, j);
-						TeleporterManager tpManager = startingRoomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-						teleporterManagers[t] = tpManager;
+						List<Room> possibleRooms = GetRoomsByDirection(startingRoomPool, room);
+						if (possibleRooms.Count > 0)
+						{
+							//TeleporterManager tpManager = startingRoomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+							TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+							teleporterManagers[t] = tpManager;
+						}
 					}
 					else
 					{
 						Vector2Int t = new Vector2Int(i, j);
-						TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-						teleporterManagers[t] = tpManager;
+						if (!alreadyPlacedShop && (room == RoomDirection.R || room == RoomDirection.L) && shopRoomPool.Count > 1)
+						{
+							List<Room> possibleRooms = GetRoomsByDirection(shopRoomPool, room);
+							if (possibleRooms.Count > 0)
+							{
+								// Spawn shop room								
+								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+								teleporterManagers[t] = tpManager;
+								ShopManager shopManager = tpManager.GetComponent<ShopManager>();
+								if (shopManager != null)
+								{
+									shopManager.InitShop();
+								}
+								alreadyPlacedShop = true;
+							}
+						}
+						else
+						{
+							List<Room> possibleRooms = GetRoomsByDirection(roomPool, room);
+							if (possibleRooms.Count > 0)
+							{
+								//TeleporterManager tpManager = roomPool[(int)room - 1].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+								teleporterManagers[t] = tpManager;
+							}
+						}
 					}
 				}
 			}
 		}
+	}
+
+	private List<Room> GetRoomsByDirection(List<Room> possibleRooms, RoomDirection direction)
+	{
+		List<Room> rooms = new List<Room>();
+		foreach (Room room in possibleRooms)
+		{
+			if (room.GetRoomDirection() == direction)
+			{
+				rooms.Add(room);
+			}
+		}
+		return rooms;
 	}
 
 	public void LinkPortals()

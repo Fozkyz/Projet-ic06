@@ -14,6 +14,9 @@ public class Weapon : MonoBehaviour
 	[SerializeField] private AudioSource shootSource;
 	[SerializeField] private AudioSource hitSource;
 	[SerializeField] private AudioSource explodeSource;
+	[SerializeField] private TextMeshProUGUI moneyText;
+
+	private int currentMoney;
 	
 	private Animator playerAnimator;
 	
@@ -24,6 +27,11 @@ public class Weapon : MonoBehaviour
     UnityEvent mouseButtonReleasedEvent;
 
 	UnityEvent<Vector2, Transform> shootProjectileEvent;
+
+	public WeaponSO GetWeaponSO()
+	{
+		return weaponSO;
+	}
 
 	public void OnShootHandler()
 	{
@@ -38,12 +46,25 @@ public class Weapon : MonoBehaviour
 		InitWeapon();
 	}
 
+	public int GetCurrentMoney()
+	{
+		return currentMoney;
+	}
+
+	public void PayMoney(int amount)
+	{
+		currentMoney -= amount;
+		moneyText.text = currentMoney.ToString();
+	}
+
 	private void Start()
 	{
 		cam = Camera.main;
 		isFacingRight = true;
+		currentMoney = 50;
 		playerAnimator = playerGraphics.GetComponent<Animator>();
 		weaponSO = weaponsSO[0];
+		PayMoney(0);
 		InitWeapon();
 	}
 
@@ -132,6 +153,12 @@ public class Weapon : MonoBehaviour
 		{
 			ChangeWeapon(5);
 		}
+	}
+
+	public void SetWeapon(WeaponSO newWeapon)
+	{
+		weaponSO = newWeapon;
+		InitWeapon();
 	}
 
 	private void ChangeWeapon(int i)

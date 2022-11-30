@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 100, y: 50}
   roomPrefab: {fileID: 2359352346204742343, guid: 4b36545b4429b5947a5d6a0aa8bb1bfa, type: 3}
+  roomDirection: 7
