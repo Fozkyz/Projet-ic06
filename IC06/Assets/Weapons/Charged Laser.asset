@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
   m_Name: Charged Laser
   m_EditorClassIdentifier: 
+  weaponSprite: {fileID: 0}
   shootComponent:
     OnShootEvent:
       m_PersistentCalls:
         m_Calls: []
     OnStoppedHoldingEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStartChargingEvent:
       m_PersistentCalls:
         m_Calls: []
     OnCanceledChargeEvent:
@@ -39,7 +43,7 @@ MonoBehaviour:
     projectileSpeed: 10
     projectileSize: 0.4
     projectileLifetime: 0.8
-    projectileRange: 8
+    projectileRange: 15
     projectileEnemiesToGoThrough: 50
     projectileNumberOfBounces: 0
     isProjectileAffectedByGravity: 0
@@ -52,3 +56,9 @@ MonoBehaviour:
     onHitExplosionRadius: 0
     onHitExplosionDamage: 0
     onHitExplosionHitsPlayer: 0
+  soundComponent:
+    onShootSound: {fileID: 0}
+    onHitSound: {fileID: 0}
+    onStartChargingSound: {fileID: 0}
+    onCancelShootSound: {fileID: 0}
+    onProjectileExplodeSound: {fileID: 0}

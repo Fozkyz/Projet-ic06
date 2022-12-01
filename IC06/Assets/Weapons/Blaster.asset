@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
   m_Name: Blaster
   m_EditorClassIdentifier: 
+  weaponSprite: {fileID: 0}
   shootComponent:
     OnShootEvent:
       m_PersistentCalls:
         m_Calls: []
     OnStoppedHoldingEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStartChargingEvent:
       m_PersistentCalls:
         m_Calls: []
     OnCanceledChargeEvent:
@@ -46,9 +50,15 @@ MonoBehaviour:
     dontDestroyProjectileOnHit: 0
     folowsMouse: 0
   onHitComponent:
-    onHitDamage: 5
+    onHitDamage: 3
     explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}
     onHitExplosionSprite: {fileID: 0}
     onHitExplosionRadius: 0
     onHitExplosionDamage: 0
     onHitExplosionHitsPlayer: 0
+  soundComponent:
+    onShootSound: {fileID: 8300000, guid: 4d75c3019cfd596488e3acba2eb39872, type: 3}
+    onHitSound: {fileID: 0}
+    onStartChargingSound: {fileID: 0}
+    onCancelShootSound: {fileID: 0}
+    onProjectileExplodeSound: {fileID: 0}

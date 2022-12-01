@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+	[SerializeField] GameObject _coinGO;
 	[SerializeField] private int _maxHealth;
 	[SerializeField] private float _speed;
 	[SerializeField] private float _detectRange;
 	[SerializeField] private float _invicibilityTime;
 	[SerializeField] private Transform _patternPointsHolder;
+	[SerializeField] private SpriteRenderer _spriteRenderer;
 	
 	private List<Transform> _patternPoints;
 
@@ -36,7 +38,12 @@ public class Enemy : MonoBehaviour
 			_lastTimeHit = Time.time;
 			if (_currentHealth <= 0)
 			{
+				Instantiate(_coinGO, transform.position, Quaternion.identity);
 				Destroy(gameObject);
+			} 
+			else
+			{
+				StartCoroutine(nameof(Blink));
 			}
 		}
 	}
@@ -109,5 +116,20 @@ public class Enemy : MonoBehaviour
 			player.TakeDamage();
 			return;
 		}
+	}
+
+	private IEnumerator Blink()
+	{
+		Color defaultColor = _spriteRenderer.color;
+		_speed *= .5f;
+
+		for (int i = 0; i < 2; i++)
+		{
+			_spriteRenderer.color = new Color(1, 1, 1, 0);
+			yield return new WaitForSeconds(_invicibilityTime / 4);
+			_spriteRenderer.color = defaultColor;
+			yield return new WaitForSeconds(_invicibilityTime / 4);
+		}
+		_speed *= 2f;
 	}
 }

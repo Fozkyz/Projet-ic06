@@ -10,6 +10,7 @@ public class ShootComponent
 {
 	public UnityEvent OnShootEvent;
 	public UnityEvent OnStoppedHoldingEvent;
+	public UnityEvent OnStartChargingEvent;
 	public UnityEvent OnCanceledChargeEvent;
 
 	[SerializeField] private ShootType shootType;
@@ -91,6 +92,7 @@ public class ShootComponent
 	{
 		OnCooldown = true;
 		var end = Time.time + chargeTime;
+		OnStartChargingEvent.Invoke();
 		while (Time.time < end)
 		{
 			if (!IsFiring)

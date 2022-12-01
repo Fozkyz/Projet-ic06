@@ -12,10 +12,15 @@ public class GameManager : MonoBehaviour
 	public UnityEvent OnGamePausedEvent, OnGameResumeEvent;
 	public bool IsGamePaused;
 
-
 	[SerializeField] private GameObject _pauseScreen;
+	[SerializeField] private AudioSource _musicSource;
+
+	[SerializeField] private List<AudioClip> _cyberpunkMusics;
+
+	[SerializeField] private List<WeaponSO> weaponsSO;
 
 	private Vector2 startPos;
+	private int _musicIndex;
 
 	public void GameOver()
 	{
@@ -67,6 +72,11 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
+	public List<WeaponSO> GetWeaponsSO()
+	{
+		return weaponsSO;
+	}
+
 	private void Start()
 	{
 		if (Player != null)
@@ -88,6 +98,16 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Instance = this;
+		}
+	}
+
+	private void Update()
+	{
+		if (_musicSource != null && !_musicSource.isPlaying && _cyberpunkMusics.Count > 0)
+		{
+			_musicIndex = (_musicIndex + 1) % _cyberpunkMusics.Count;
+			_musicSource.clip = _cyberpunkMusics[_musicIndex];
+			_musicSource.Play();
 		}
 	}
 }

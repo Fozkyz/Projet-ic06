@@ -242,11 +242,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f85fa508d2bf34f8fdf5d6d8d9aea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coinGO: {fileID: 2433997928573083736, guid: d22b4d3d28379af4e855cb3f504bd731, type: 3}
   _maxHealth: 10
   _speed: 5
   _detectRange: 5
   _invicibilityTime: 0.1
   _patternPointsHolder: {fileID: 2058641801783102380}
+  _spriteRenderer: {fileID: 6796685424980231960}
 --- !u!50 &966592981866729137
 Rigidbody2D:
   serializedVersion: 4

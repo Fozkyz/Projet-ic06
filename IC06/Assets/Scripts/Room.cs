@@ -7,10 +7,16 @@ public class Room : ScriptableObject
 {
 	[SerializeField] private Vector2 size;
 	[SerializeField] GameObject roomPrefab;
+	[SerializeField] RoomDirection roomDirection;
 
 	public Vector2 GetSize()
 	{
 		return size;
+	}
+
+	public RoomDirection GetRoomDirection()
+	{
+		return roomDirection;
 	}
 
 	public TeleporterManager Spawn(Vector2Int position, GameObject go)

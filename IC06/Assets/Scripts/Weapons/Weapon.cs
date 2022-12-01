@@ -11,6 +11,9 @@ public class Weapon : MonoBehaviour
 	[SerializeField] private Transform shootFrom;
 	[SerializeField] private Transform playerGraphics;
 	[SerializeField] private TextMeshProUGUI weaponText;
+	[SerializeField] private AudioSource shootSource;
+	[SerializeField] private AudioSource hitSource;
+	[SerializeField] private AudioSource explodeSource;
 	
 	private Animator playerAnimator;
 	
@@ -21,6 +24,11 @@ public class Weapon : MonoBehaviour
     UnityEvent mouseButtonReleasedEvent;
 
 	UnityEvent<Vector2, Transform> shootProjectileEvent;
+
+	public WeaponSO GetWeaponSO()
+	{
+		return weaponSO;
+	}
 
 	public void OnShootHandler()
 	{
@@ -53,8 +61,13 @@ public class Weapon : MonoBehaviour
 			mouseButtonReleasedEvent = new UnityEvent();
 			shootProjectileEvent = new UnityEvent<Vector2, Transform>();
 
+			weaponSO.GetSoundComponent().ShootSource = shootSource;
+			weaponSO.GetSoundComponent().HitSource = hitSource;
+			weaponSO.GetSoundComponent().ExplodeSource = explodeSource;
+
 			weaponSO.GetShootComponent().OnShootEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent = new UnityEvent();
+			weaponSO.GetShootComponent().OnStartChargingEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnCanceledChargeEvent = new UnityEvent();
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent = new UnityEvent<Projectile>();
 
@@ -66,9 +79,13 @@ public class Weapon : MonoBehaviour
 			shootProjectileEvent.AddListener(weaponSO.GetProjectileComponent().OnShootProjectileHandler);
 
 			weaponSO.GetShootComponent().OnShootEvent.AddListener(OnShootHandler);
+			weaponSO.GetShootComponent().OnShootEvent.AddListener(weaponSO.GetSoundComponent().OnShootHandler);
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetProjectileComponent().OnStoppedHoldingHandler);
+			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetSoundComponent().OnStoppedHoldingHandler);
+			weaponSO.GetShootComponent().OnStartChargingEvent.AddListener(weaponSO.GetSoundComponent().OnStartChargingHandler);
 
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
+			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetSoundComponent().OnProjectileFiredHandler);
 		}
 	}
 
@@ -120,6 +137,12 @@ public class Weapon : MonoBehaviour
 		{
 			ChangeWeapon(5);
 		}
+	}
+
+	public void SetWeapon(WeaponSO newWeapon)
+	{
+		weaponSO = newWeapon;
+		InitWeapon();
 	}
 
 	private void ChangeWeapon(int i)

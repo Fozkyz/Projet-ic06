@@ -19,6 +19,9 @@ MonoBehaviour:
     OnStoppedHoldingEvent:
       m_PersistentCalls:
         m_Calls: []
+    OnStartChargingEvent:
+      m_PersistentCalls:
+        m_Calls: []
     OnCanceledChargeEvent:
       m_PersistentCalls:
         m_Calls: []
@@ -52,3 +55,9 @@ MonoBehaviour:
     onHitExplosionRadius: 0
     onHitExplosionDamage: 0
     onHitExplosionHitsPlayer: 0
+  soundComponent:
+    onShootSound: {fileID: 8300000, guid: 714b9fc47db54a44595f3f06225f277a, type: 3}
+    onHitSound: {fileID: 0}
+    onStartChargingSound: {fileID: 0}
+    onCancelShootSound: {fileID: 0}
+    onProjectileExplodeSound: {fileID: 0}
