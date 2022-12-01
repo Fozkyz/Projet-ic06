@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -10,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
 	[Header("UI")]
 	[SerializeField] private RawImage _heartImage;
 	[SerializeField] private Transform _heartContainerUI;
+	[SerializeField] private TextMeshProUGUI moneyText;
 
 	[SerializeField] private Vector2 _offset;
 	[SerializeField] private Vector2 _spaceBetweenImages;
@@ -20,6 +22,8 @@ public class PlayerHealth : MonoBehaviour
 	private PlayerController _player;
 
 	private List<RawImage> _heartImages;
+
+	private int currentMoney;
 
 	public void TakeDamage()
 	{
@@ -39,16 +43,54 @@ public class PlayerHealth : MonoBehaviour
 		if (_currentHealth < _maxHealth)
 		{
 			_currentHealth++;
-			_heartImages[_currentHealth].enabled = true;
+			_heartImages[_currentHealth - 1].enabled = true;
 		}
+	}
+
+	public int GetCurrentMoney()
+	{
+		return currentMoney;
+	}
+
+	public void PayMoney(int amount)
+	{
+		currentMoney -= amount;
+		moneyText.text = currentMoney.ToString();
+	}
+
+	public void AddMoney(int amount)
+	{
+		currentMoney += amount;
+		moneyText.text = currentMoney.ToString();
+	}
+
+	public void InteractWithStand(WeaponStand weaponStand)
+	{
+		Weapon weapon = GetComponent<Weapon>();
+		if (weapon != null)
+		{
+			weapon.SetWeapon(weaponStand.GetWeapon());
+		}
+	}
+
+	public void InteractWithStand(HealthStand healthStand)
+	{
+		Heal();
+	}
+
+	public void InteractWithStand(AugmentStand augmentStand)
+	{
+
 	}
 
 	private void Start()
 	{
+		currentMoney = 50;
 		_currentHealth = _maxHealth;
 		_heartImages = new List<RawImage>();
 		_player = GetComponent<PlayerController>();
 		_gameOverScreen.SetActive(false);
+		PayMoney(0);
 		SetupUI();
 	}
 

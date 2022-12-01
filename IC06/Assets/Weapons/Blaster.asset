@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
   m_Name: Blaster
   m_EditorClassIdentifier: 
+  weaponSprite: {fileID: 0}
   shootComponent:
     OnShootEvent:
       m_PersistentCalls:
@@ -49,7 +50,7 @@ MonoBehaviour:
     dontDestroyProjectileOnHit: 0
     folowsMouse: 0
   onHitComponent:
-    onHitDamage: 5
+    onHitDamage: 3
     explosionParticleSystem: {fileID: 5180414521712789651, guid: ea3a74808db56a94db2e0958b822f19d, type: 3}
     onHitExplosionSprite: {fileID: 0}
     onHitExplosionRadius: 0

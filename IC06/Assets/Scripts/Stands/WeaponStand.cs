@@ -19,12 +19,22 @@ public class WeaponStand : InteractableStand
 		{
 			renderer.sprite = weaponSO.GetWeaponSprite();
 		}
+		
 	}
 
-	protected override void Interact()
+	public WeaponSO GetWeapon()
 	{
-		WeaponSO temp = playerWeapon.GetWeaponSO();
-		playerWeapon.SetWeapon(weaponSO);
-		SetWeapon(temp);
+		return weaponSO;
+	}
+
+	protected override void Interact(PlayerHealth player)
+	{
+		Weapon weapon = player.GetComponent<Weapon>();
+		if (weapon != null)
+		{
+			WeaponSO temp = weapon.GetWeaponSO();
+			player.InteractWithStand(this);
+			SetWeapon(temp);
+		}
 	}
 }

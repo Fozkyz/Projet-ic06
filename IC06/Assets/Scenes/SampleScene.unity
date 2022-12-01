@@ -4080,7 +4080,6 @@ MonoBehaviour:
   shootSource: {fileID: 1575490758}
   hitSource: {fileID: 1575490760}
   explodeSource: {fileID: 1575490759}
-  moneyText: {fileID: 582934537}
 --- !u!114 &1575490757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4096,6 +4095,7 @@ MonoBehaviour:
   _maxHealth: 3
   _heartImage: {fileID: 8536787137892157052, guid: aa72f14aa87b79740a9022619a342d1e, type: 3}
   _heartContainerUI: {fileID: 1413400251}
+  moneyText: {fileID: 582934537}
   _offset: {x: 15, y: -15}
   _spaceBetweenImages: {x: 10, y: 0}
   _gameOverScreen: {fileID: 1812396785}
