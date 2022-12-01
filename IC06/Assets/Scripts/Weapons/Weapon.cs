@@ -16,6 +16,7 @@ public class Weapon : MonoBehaviour
 	[SerializeField] private AudioSource explodeSource;
 	
 	private Animator playerAnimator;
+	private List<Augment> augments;
 	
 	private Camera cam;
 	private bool isFacingRight;
@@ -41,6 +42,22 @@ public class Weapon : MonoBehaviour
 	{
 		weaponSO = newWeaponSO;
 		InitWeapon();
+		foreach (Augment augment in augments)
+		{
+			foreach (Effect effect in augment.Effects)
+			{
+				ApplyAugmentEffect(effect);
+			}
+		}
+	}
+
+	public void AddAugment(Augment newAugment)
+	{
+		augments.Add(newAugment);
+		foreach (Effect effect in newAugment.Effects)
+		{
+			ApplyAugmentEffect(effect);
+		}
 	}
 
 	private void Start()
@@ -49,6 +66,7 @@ public class Weapon : MonoBehaviour
 		isFacingRight = true;
 		playerAnimator = playerGraphics.GetComponent<Animator>();
 		weaponSO = weaponsSO[0];
+		augments = new List<Augment>();
 		InitWeapon();
 	}
 
@@ -86,6 +104,10 @@ public class Weapon : MonoBehaviour
 
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetSoundComponent().OnProjectileFiredHandler);
+
+			weaponSO.GetOnHitComponent().InitComponent();
+			weaponSO.GetProjectileComponent().InitComponent();
+			weaponSO.GetShootComponent().InitComponent();
 		}
 	}
 
@@ -108,6 +130,64 @@ public class Weapon : MonoBehaviour
 			isFacingRight = !isFacingRight;
 			playerGraphics.Rotate(playerGraphics.up, 180f);
 			playerAnimator.SetBool("FacingRight", isFacingRight);
+		}
+	}
+
+	private void ApplyAugmentEffect(Effect effect)
+	{
+		switch (effect.Type)
+		{
+			case EffectType.ON_HIT_DAMAGE_MODIFIER:
+				weaponSO.GetOnHitComponent().OnHitDamageModifier = (int)effect.Value;
+				break;
+			case EffectType.ON_HIT_DAMAGE_MULTIPLIER:
+				weaponSO.GetOnHitComponent().OnHitDamageMultiplier = effect.Value;
+				break;
+			case EffectType.ON_HIT_EXPLOSION_DAMAGE_MODIFIER:
+				weaponSO.GetOnHitComponent().OnHitExplosionDamageModifier = (int)effect.Value;
+				break;
+			case EffectType.ON_HIT_EXPLOSION_DAMAGE_MULTIPLIER:
+				weaponSO.GetOnHitComponent().OnHitExplosionDamageMultiplier = effect.Value;
+				break;
+			case EffectType.ON_HIT_EXPLOSION_RADIUS_MODIFIER:
+				weaponSO.GetOnHitComponent().OnHitExplosionRadiusModifier = (int)effect.Value;
+				break;
+			case EffectType.ON_HIT_EXPLOSION_RADIUS_MULTIPLIER:
+				weaponSO.GetOnHitComponent().OnHitExplosionRadiusMultiplier = effect.Value;
+				break;
+			case EffectType.ON_HIT_EXPLOSION_HITS_PLAYER_OVERRIDE:
+				weaponSO.GetOnHitComponent().OnHitExplosionHitsPlayerOverride = effect.BoolValue;
+				break;
+			case EffectType.PROJECTILE_SPEED_MODIFIER:
+				weaponSO.GetProjectileComponent().ProjectileSpeedModifier = effect.Value;
+				break;
+			case EffectType.PROJECTILE_SPEED_MULTIPLIER:
+				weaponSO.GetProjectileComponent().ProjectileSpeedMultiplier = effect.Value;
+				break;
+			case EffectType.PROJECTILE_RANGE_MODIFIER:
+				weaponSO.GetProjectileComponent().ProjectileRangeModifier = effect.Value;
+				break;
+			case EffectType.PROJECTILE_RANGE_MULTIPLIER:
+				weaponSO.GetProjectileComponent().ProjectileRangeMultiplier = effect.Value;
+				break;
+			case EffectType.PROJECTILE_ENEMIES_TO_GO_THROUGH_MODIFIER:
+				weaponSO.GetProjectileComponent().ProjectileEnemiesToGoThroughModifier = (int)effect.Value;
+				break;
+			case EffectType.PROJECTILE_ENEMIES_TO_GO_THROUGH_MULTIPLIER:
+				weaponSO.GetProjectileComponent().ProjectileEnemiesToGoThroughMultiplier = effect.Value;
+				break;
+			case EffectType.PROJECTILE_NUMBER_OF_BOUNCES_MODIFIER:
+				weaponSO.GetProjectileComponent().ProjectileNumberOfBouncesModifier = (int)effect.Value;
+				break;
+			case EffectType.PROJECTILE_NUMBER_OF_BOUNCES_MULTIPLIER:
+				weaponSO.GetProjectileComponent().ProjectileNumberOfBouncesMultiplier = effect.Value;
+				break;
+			case EffectType.FIRE_RATE_MULTIPLIER:
+				weaponSO.GetShootComponent().FireRateMultiplier = effect.Value;
+				break;
+			case EffectType.CHARGE_TIME_MULTIPLIER:
+				weaponSO.GetShootComponent().ChargeTimeMultiplier = effect.Value;
+				break;
 		}
 	}
 
@@ -137,12 +217,6 @@ public class Weapon : MonoBehaviour
 		{
 			ChangeWeapon(5);
 		}
-	}
-
-	public void SetWeapon(WeaponSO newWeapon)
-	{
-		weaponSO = newWeapon;
-		InitWeapon();
 	}
 
 	private void ChangeWeapon(int i)

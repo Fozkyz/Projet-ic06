@@ -12,7 +12,26 @@ public class OnHitComponent
 	[SerializeField] private int onHitExplosionDamage;
 	[SerializeField] private bool onHitExplosionHitsPlayer;
 
-    public void OnProjectileFiredHandler(Projectile proj)
+	public int OnHitDamageModifier { get; set; }
+	public float OnHitDamageMultiplier { get; set; }
+	public int OnHitExplosionDamageModifier { get; set; }
+	public float OnHitExplosionDamageMultiplier { get; set; }
+	public int OnHitExplosionRadiusModifier { get; set; }
+	public float OnHitExplosionRadiusMultiplier { get; set; }
+	public bool OnHitExplosionHitsPlayerOverride { get; set; }
+
+	public void InitComponent()
+	{
+		OnHitDamageModifier = 0;
+		OnHitDamageMultiplier = 1f;
+		OnHitExplosionDamageModifier = 0;
+		OnHitExplosionDamageMultiplier = 1f;
+		OnHitExplosionRadiusModifier = 0;
+		OnHitExplosionRadiusMultiplier = 1f;
+		OnHitExplosionHitsPlayerOverride = false;
+	}
+
+	public void OnProjectileFiredHandler(Projectile proj)
 	{
 		proj.OnEnemyHitEvent.AddListener(OnEnemyHitHandler);
 		proj.OnLastEnemyHitEvent.AddListener(OnLastEnemyHitHandler);
@@ -23,7 +42,8 @@ public class OnHitComponent
 
 	private void OnEnemyHitHandler(Projectile proj, Enemy enemy)
 	{
-		enemy.TakeDamage(onHitDamage, false);
+		int damage = Mathf.FloorToInt((onHitDamage + OnHitDamageModifier) * OnHitDamageMultiplier);
+		enemy.TakeDamage(damage, false);
 		// Spawn particle effects
 	}
 
@@ -58,16 +78,26 @@ public class OnHitComponent
 		}
 		GameObject.Destroy(proj.gameObject);
 
-		if (onHitExplosionDamage > 0)
+		int explosionRadius = Mathf.FloorToInt((onHitExplosionRadius + OnHitExplosionRadiusModifier) * OnHitExplosionRadiusMultiplier);
+		if (explosionRadius > 0)
 		{
-			Collider2D[] cols = Physics2D.OverlapCircleAll(proj.GetProjectileEndPoint(), onHitExplosionRadius);
+			int explosionDamage = Mathf.FloorToInt((onHitExplosionDamage + OnHitExplosionDamageModifier) * OnHitExplosionDamageMultiplier);
+			Collider2D[] cols = Physics2D.OverlapCircleAll(proj.GetProjectileEndPoint(), explosionRadius);
 			foreach (Collider2D col in cols)
 			{
 				Enemy enemy = col.GetComponent<Enemy>();
 				if (enemy != null)
 				{
-					enemy.TakeDamage(onHitExplosionDamage, true);
+					enemy.TakeDamage(explosionDamage, true);
 					continue;
+				}
+				if (onHitExplosionHitsPlayer || OnHitExplosionHitsPlayerOverride)
+				{
+					PlayerHealth player = col.GetComponent<PlayerHealth>();
+					if (player != null)
+					{
+						player.TakeDamage();
+					}
 				}
 			}
 		}

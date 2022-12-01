@@ -179,6 +179,7 @@ Transform:
   - {fileID: 1934013226523313208}
   - {fileID: 101495144133716660}
   - {fileID: 1685384673834853161}
+  - {fileID: 4212864302026815273}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24930,6 +24931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponStand: {fileID: 5868319227969344262}
+  augmentStand: {fileID: 7771370952249872464}
 --- !u!1 &7991847841354072913
 GameObject:
   m_ObjectHideFlags: 0
@@ -25331,3 +25333,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4173549831921537934, guid: 3c9beae674704e14fb9c2796050c2650, type: 3}
   m_PrefabInstance: {fileID: 641903041371384449}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4058430633895783701
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1706192660308234444}
+    m_Modifications:
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081398558142889700, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+      propertyPath: m_Name
+      value: AugmentStand
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+--- !u!4 &4212864302026815273 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 154645123556219452, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+  m_PrefabInstance: {fileID: 4058430633895783701}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7771370952249872464 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6019911495898332485, guid: ba2cde2e7c797cf4cb0e8d3541c97e67, type: 3}
+  m_PrefabInstance: {fileID: 4058430633895783701}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99466ed07cc6b6a4499648f29a3b900e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

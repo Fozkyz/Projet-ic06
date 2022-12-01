@@ -69,7 +69,7 @@ public class PlayerHealth : MonoBehaviour
 		Weapon weapon = GetComponent<Weapon>();
 		if (weapon != null)
 		{
-			weapon.SetWeapon(weaponStand.GetWeapon());
+			weapon.SetWeaponSO(weaponStand.GetWeapon());
 		}
 	}
 
@@ -80,7 +80,11 @@ public class PlayerHealth : MonoBehaviour
 
 	public void InteractWithStand(AugmentStand augmentStand)
 	{
-
+		Weapon weapon = GetComponent<Weapon>();
+		if (weapon != null)
+		{
+			weapon.AddAugment(augmentStand.GetAugment());
+		}
 	}
 
 	private void Start()
