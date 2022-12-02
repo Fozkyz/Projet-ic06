@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -11,7 +12,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private float _invicibilityTime;
 	[SerializeField] private Transform _patternPointsHolder;
 	[SerializeField] private SpriteRenderer _spriteRenderer;
-	
+
+	public UnityEvent<Enemy> OnEnemyKilledEvent;
+
 	private List<Transform> _patternPoints;
 
 	private Rigidbody2D _rb;
@@ -27,7 +30,10 @@ public class Enemy : MonoBehaviour
 	public void SetActive(bool newIsActive)
 	{
 		_isActive = newIsActive;
-		_rb.velocity = Vector2.zero;
+		if (_rb != null)
+		{
+			_rb.velocity = Vector2.zero;
+		}
 	}
 
     public void TakeDamage(int amount, bool bypassInvincibility)
@@ -39,6 +45,7 @@ public class Enemy : MonoBehaviour
 			if (_currentHealth <= 0)
 			{
 				Instantiate(_coinGO, transform.position, Quaternion.identity);
+				OnEnemyKilledEvent.Invoke(this);
 				Destroy(gameObject);
 			} 
 			else

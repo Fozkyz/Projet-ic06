@@ -11,6 +11,7 @@ public class DungeonGenerator : MonoBehaviour
 	[SerializeField] List<Room> startingRoomPool;
 	[SerializeField] List<Room> roomPool;
 	[SerializeField] List<Room> shopRoomPool;
+	[SerializeField] List<Room> bossRoomPool;
 	[SerializeField] List<Sprite> backgroundImages;
 
 	private RoomDirection[,] dungeon;
@@ -97,6 +98,7 @@ public class DungeonGenerator : MonoBehaviour
 	public void BuildDungeon()
 	{
 		bool alreadyPlacedShop = false;
+		bool alreadyPlacedBossRoom = false;
 		teleporterManagers = new Dictionary<Vector2Int, TeleporterManager>();
 		GameObject holder = new GameObject();
 		holder.name = "Dungeon";
@@ -135,6 +137,17 @@ public class DungeonGenerator : MonoBehaviour
 									shopManager.InitShop();
 								}
 								alreadyPlacedShop = true;
+							}
+						}
+						else if (!alreadyPlacedBossRoom && (room == RoomDirection.R || room == RoomDirection.L) && bossRoomPool.Count > 1)
+						{
+							List<Room> possibleRooms = GetRoomsByDirection(bossRoomPool, room);
+							if (possibleRooms.Count > 0)
+							{
+								// Spawn boss room								
+								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+								teleporterManagers[t] = tpManager;
+								alreadyPlacedBossRoom = true;
 							}
 						}
 						else
