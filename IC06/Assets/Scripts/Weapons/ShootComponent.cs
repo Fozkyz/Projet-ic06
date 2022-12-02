@@ -18,10 +18,19 @@ public class ShootComponent
 	[SerializeField] private float fireRate;
 	[SerializeField] private float chargeTime;
 
+	public float FireRateMultiplier { get; set; }
+	public float ChargeTimeMultiplier { get; set; }
+
 	public bool IsFiring { get; set; }
 	public bool OnCooldown { get; set; }
 
 	Task shootTask;
+
+	public void InitComponent()
+	{
+		FireRateMultiplier = 1f;
+		ChargeTimeMultiplier = 1f;
+	}
 
 	public void OnMouseButtonPressedHandler()
 	{
@@ -75,7 +84,7 @@ public class ShootComponent
 		while(IsFiring)
 		{
 			OnShootEvent.Invoke();
-			await Task.Delay((int) (1000 / fireRate));
+			await Task.Delay((int) (1000 / (fireRate * FireRateMultiplier)));
 		}
 		OnCooldown = false;
 	}
@@ -84,14 +93,14 @@ public class ShootComponent
 	{
 		OnCooldown = true;
 		OnShootEvent.Invoke();
-		await Task.Delay((int)(1000 / fireRate));
+		await Task.Delay((int)(1000 / (fireRate * FireRateMultiplier)));
 		OnCooldown = false;
 	}
 
 	async Task StartFiringCharged()
 	{
 		OnCooldown = true;
-		var end = Time.time + chargeTime;
+		var end = Time.time + chargeTime * ChargeTimeMultiplier;
 		OnStartChargingEvent.Invoke();
 		while (Time.time < end)
 		{

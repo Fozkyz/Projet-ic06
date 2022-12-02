@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private List<AudioClip> _cyberpunkMusics;
 
 	[SerializeField] private List<WeaponSO> weaponsSO;
+	[SerializeField] private List<Augment> augmentsSO;
 
 	private Vector2 startPos;
 	private int _musicIndex;
@@ -75,6 +76,11 @@ public class GameManager : MonoBehaviour
 	public List<WeaponSO> GetWeaponsSO()
 	{
 		return weaponsSO;
+	}
+
+	public List<Augment> GetAugmentsSO()
+	{
+		return augmentsSO;
 	}
 
 	private void Start()

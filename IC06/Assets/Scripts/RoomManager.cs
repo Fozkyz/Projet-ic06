@@ -20,7 +20,7 @@ public class RoomManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	protected virtual void Start()
 	{
 		TeleporterManager tpManager = GetComponent<TeleporterManager>();
 		tpManager.OnPlayerEnteredRoomEvent.AddListener(OnPlayerEnteredRoomHandler);
@@ -35,20 +35,12 @@ public class RoomManager : MonoBehaviour
 		//SetActiveRoom(false);
 	}
 
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Return))
-		{
-			SetActiveRoom(false);
-		}
-	}
-
-	private void OnPlayerEnteredRoomHandler(PlayerController player, Teleporter teleporter)
+	protected virtual void OnPlayerEnteredRoomHandler(PlayerController player, Teleporter teleporter)
 	{
 		SetActiveRoom(true);
 	}
 
-	private void OnPlayerLeftRoomHandler(PlayerController player, Teleporter teleporter)
+	protected virtual void OnPlayerLeftRoomHandler(PlayerController player, Teleporter teleporter)
 	{
 		SetActiveRoom(false);
 	}

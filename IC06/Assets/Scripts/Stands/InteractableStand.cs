@@ -6,11 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public abstract class InteractableStand : MonoBehaviour
 {
-	[SerializeField] AudioClip _buySound;
-	[SerializeField] SpriteRenderer _canPlayerPressRenderer;
-	[SerializeField] TextMeshProUGUI _priceText;
-	[SerializeField] KeyCode _keyCode;
-	[SerializeField] int _price;
+	[SerializeField] protected AudioClip _buySound;
+	[SerializeField] protected SpriteRenderer _canPlayerPressRenderer;
+	[SerializeField] protected TextMeshProUGUI _priceText;
+	[SerializeField] protected KeyCode _keyCode;
+	[SerializeField] protected int _price;
 
 	protected bool _canBuy;
 	private AudioSource _source;

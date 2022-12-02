@@ -8,6 +8,8 @@ public class HealthStand : InteractableStand
 	{
 		player.InteractWithStand(this);
 		_canBuy = false;
+		_priceText.enabled = false;
+		_canPlayerPressRenderer.enabled = false;
 		Destroy(this);
 	}
 }

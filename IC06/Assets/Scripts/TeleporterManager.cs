@@ -14,6 +14,46 @@ public class TeleporterManager : MonoBehaviour
 	public UnityEvent<PlayerController, Teleporter> OnPlayerEnteredRoomEvent;
 	public UnityEvent<PlayerController, Teleporter> OnPlayerLeftRoomEvent;
 
+	public void LockAllTeleporters()
+	{
+		if (leftTeleporter != null)
+		{
+			leftTeleporter.IsTpLocked = true;
+		}
+		if (rightTeleporter != null)
+		{
+			rightTeleporter.IsTpLocked = true;
+		}
+		if (topTeleporter != null)
+		{
+			topTeleporter.IsTpLocked = true;
+		}
+		if (bottomTeleporter != null)
+		{
+			bottomTeleporter.IsTpLocked = true;
+		}
+	}
+
+	public void UnlockAllTeleporters()
+	{
+		if (leftTeleporter != null)
+		{
+			leftTeleporter.IsTpLocked = false;
+		}
+		if (rightTeleporter != null)
+		{
+			rightTeleporter.IsTpLocked = false;
+		}
+		if (topTeleporter != null)
+		{
+			topTeleporter.IsTpLocked = false;
+		}
+		if (bottomTeleporter != null)
+		{
+			bottomTeleporter.IsTpLocked = false;
+		}
+	}
+
 	public Teleporter GetLeftTeleporter()
 	{
 		return leftTeleporter;

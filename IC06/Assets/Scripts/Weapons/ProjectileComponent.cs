@@ -27,7 +27,28 @@ public class ProjectileComponent
 	[SerializeField] private bool dontDestroyProjectileOnHit;
 	[SerializeField] private bool folowsMouse;
 
+	public float ProjectileSpeedModifier { get; set; }
+	public float ProjectileSpeedMultiplier { get; set; }
+	public float ProjectileRangeModifier { get; set; }
+	public float ProjectileRangeMultiplier { get; set; }
+	public int ProjectileEnemiesToGoThroughModifier { get; set; }
+	public float ProjectileEnemiesToGoThroughMultiplier { get; set; }
+	public int ProjectileNumberOfBouncesModifier { get; set; }
+	public float ProjectileNumberOfBouncesMultiplier { get; set; }
+
 	private GameObject projectileInstance;
+
+	public void InitComponent()
+	{
+		ProjectileSpeedModifier = 0f;
+		ProjectileSpeedMultiplier = 1f;
+		ProjectileRangeModifier = 0f;
+		ProjectileRangeMultiplier = 1f;
+		ProjectileEnemiesToGoThroughModifier = 0;
+		ProjectileEnemiesToGoThroughMultiplier = 1f;
+		ProjectileNumberOfBouncesModifier = 0;
+		ProjectileNumberOfBouncesMultiplier = 1f;
+	}
 
 	public void OnShootProjectileHandler(Vector2 dir, Transform shootFrom)
 	{
@@ -78,10 +99,10 @@ public class ProjectileComponent
 			projectile.ProjectileType = projectileType;
 			projectile.LifeTime = projectileLifetime;
 			projectile.Size = projectileSize;
-			projectile.Speed = projectileSpeed;
-			projectile.MaxRange = projectileRange;
-			projectile.EnemiesToGoThrough = projectileEnemiesToGoThrough;
-			projectile.NumberOfBounces = projectileNumberOfBounces;
+			projectile.Speed = (projectileSpeed + ProjectileSpeedModifier) * ProjectileSpeedMultiplier;
+			projectile.MaxRange = (projectileRange + ProjectileRangeModifier) * ProjectileRangeMultiplier;
+			projectile.EnemiesToGoThrough = Mathf.FloorToInt((projectileEnemiesToGoThrough + ProjectileEnemiesToGoThroughModifier) * ProjectileEnemiesToGoThroughMultiplier);
+			projectile.NumberOfBounces = Mathf.FloorToInt((projectileNumberOfBounces + ProjectileNumberOfBouncesModifier) * ProjectileNumberOfBouncesMultiplier);
 			projectile.IsAffectedByGravity = isProjectileAffectedByGravity;
 			projectile.DontDestroyOnHit = dontDestroyProjectileOnHit;
 			projectile.FolowsMouse = folowsMouse;

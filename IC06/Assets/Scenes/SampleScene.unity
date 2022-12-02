@@ -4109,7 +4109,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4d75c3019cfd596488e3acba2eb39872, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -5132,7 +5132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1492102174}
   dungeonSize: {x: 20, y: 20}
-  roomCount: 5
+  roomCount: 10
   startingRoomPool:
   - {fileID: 11400000, guid: b4ba71d9455e27741a1795d8f9f9c389, type: 2}
   - {fileID: 11400000, guid: 159b8dbf3ed7f414da6c1e8c108da39d, type: 2}
@@ -5168,6 +5168,9 @@ MonoBehaviour:
   shopRoomPool:
   - {fileID: 11400000, guid: 7a95fb21f096faf43b5cc785bd13bde4, type: 2}
   - {fileID: 11400000, guid: 6d010cda458284c4cb5119d68ec039e6, type: 2}
+  bossRoomPool:
+  - {fileID: 11400000, guid: 699a341c1b632b74ab7495ac870fb820, type: 2}
+  - {fileID: 11400000, guid: 6a04887b2a7c10b408dcb0bdda8bedbb, type: 2}
   backgroundImages:
   - {fileID: 21300000, guid: 3bee7502ce260b64dbd9e14a2ae69490, type: 3}
   - {fileID: 21300000, guid: 65bf476bfec3d12489d29ee8870454e2, type: 3}
@@ -5249,6 +5252,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5eabdbf18b6562a488f964d4a148ff4e, type: 2}
   - {fileID: 11400000, guid: 38807d97a756d42438db3c23afcce38a, type: 2}
   - {fileID: 11400000, guid: 2d27388e5dee15846a9d4134e85de17f, type: 2}
+  augmentsSO:
+  - {fileID: 11400000, guid: 111f0051259dbc041bf8bbe95e15cd6f, type: 2}
 --- !u!114 &2072908627
 MonoBehaviour:
   m_ObjectHideFlags: 0

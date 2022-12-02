@@ -11,6 +11,8 @@ public class Teleporter : MonoBehaviour
 	public UnityEvent<PlayerController, Teleporter> OnPlayerUsedTeleporterInEvent;
 	public UnityEvent<PlayerController, Teleporter> OnPlayerUsedTeleporterOutEvent;
 
+	public bool IsTpLocked { get; set; }
+
 	private Teleporter linkedTeleporter;
 
 	private PlayerController _player;
@@ -37,10 +39,15 @@ public class Teleporter : MonoBehaviour
 		OnPlayerUsedTeleporterOutEvent = new UnityEvent<PlayerController, Teleporter>();
 	}
 
+	private void Start()
+	{
+		IsTpLocked = false;
+	}
+
 	private void Update()
 	{
 		timeSinceUsed += Time.deltaTime;
-		if (isPlayerOnTP)
+		if (isPlayerOnTP && !IsTpLocked)
 		{
 			if (Utils.IsAnyKeyHeld(teleportKeys))
 			{
