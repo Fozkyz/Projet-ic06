@@ -373,7 +373,7 @@ public class DungeonGenerator : MonoBehaviour
 
 	private bool IsRight(RoomDirection room)
 	{
-		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSL || room == RoomDirection.SHOPL);
+		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSR || room == RoomDirection.SHOPR);
 	}
 
 

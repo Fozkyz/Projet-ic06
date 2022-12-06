@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
 public class OnHitComponent
 {
+	public UnityEvent<Projectile> OnProjectileExplodesEvent;
+
 	[SerializeField] private int onHitDamage;
 	[SerializeField] private ParticleSystem explosionParticleSystem;
 	[SerializeField] private Sprite onHitExplosionSprite;
@@ -81,6 +84,7 @@ public class OnHitComponent
 		int explosionRadius = Mathf.FloorToInt((onHitExplosionRadius + OnHitExplosionRadiusModifier) * OnHitExplosionRadiusMultiplier);
 		if (explosionRadius > 0)
 		{
+			OnProjectileExplodesEvent.Invoke(proj);
 			int explosionDamage = Mathf.FloorToInt((onHitExplosionDamage + OnHitExplosionDamageModifier) * OnHitExplosionDamageMultiplier);
 			Collider2D[] cols = Physics2D.OverlapCircleAll(proj.GetProjectileEndPoint(), explosionRadius);
 			foreach (Collider2D col in cols)

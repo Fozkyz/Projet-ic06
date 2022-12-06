@@ -34,6 +34,10 @@ public class ShootComponent
 
 	public void OnMouseButtonPressedHandler()
 	{
+		if (GameManager.Instance.IsGamePaused)
+		{
+			return;
+		}
 		IsFiring = true;
 		switch(shootType)
 		{
@@ -83,7 +87,10 @@ public class ShootComponent
 		OnCooldown = true;
 		while(IsFiring)
 		{
-			OnShootEvent.Invoke();
+			if (!GameManager.Instance.IsGamePaused)
+			{
+				OnShootEvent.Invoke();
+			}
 			await Task.Delay((int) (1000 / (fireRate * FireRateMultiplier)));
 		}
 		OnCooldown = false;
@@ -109,6 +116,10 @@ public class ShootComponent
 				OnCanceledChargeEvent.Invoke();
 				return;
 			}
+			await Task.Yield();
+		}
+		while (GameManager.Instance.IsGamePaused)
+		{
 			await Task.Yield();
 		}
 		OnShootEvent.Invoke();
