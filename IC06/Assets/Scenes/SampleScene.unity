@@ -5133,6 +5133,7 @@ MonoBehaviour:
   grid: {fileID: 1492102174}
   dungeonSize: {x: 20, y: 20}
   roomCount: 10
+  shopRoomCount: 0
   startingRoomPool:
   - {fileID: 11400000, guid: b4ba71d9455e27741a1795d8f9f9c389, type: 2}
   - {fileID: 11400000, guid: 159b8dbf3ed7f414da6c1e8c108da39d, type: 2}
@@ -5245,6 +5246,8 @@ MonoBehaviour:
   _musicSource: {fileID: 519420034}
   _cyberpunkMusics:
   - {fileID: 8300000, guid: 9178d39c8c6af9d41af0e76b7536bbfe, type: 3}
+  - {fileID: 8300000, guid: 30c4590ae16e1fb40a0f0e976a1c95f6, type: 3}
+  - {fileID: 8300000, guid: 479e74ad304d27c498ca9c1c771b88f1, type: 3}
   weaponsSO:
   - {fileID: 11400000, guid: d225e79c26d112b49833368a11778e83, type: 2}
   - {fileID: 11400000, guid: 1213c23fe269d1b469fafab6fab7016d, type: 2}
