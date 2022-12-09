@@ -89,7 +89,7 @@ public class PlayerHealth : MonoBehaviour
 
 	private void Start()
 	{
-		currentMoney = 50;
+		currentMoney = 0;
 		_currentHealth = _maxHealth;
 		_heartImages = new List<RawImage>();
 		_player = GetComponent<PlayerController>();

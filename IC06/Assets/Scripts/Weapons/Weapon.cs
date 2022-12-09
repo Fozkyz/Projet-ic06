@@ -128,7 +128,7 @@ public class Weapon : MonoBehaviour
 		if (Application.isEditor)
 			CheckChangeWeapon();
 
-		Vector2 shootFromPos = cam.WorldToScreenPoint(shootFrom.position);
+		Vector2 shootFromPos = cam.WorldToScreenPoint(transform.position);
 		if (isFacingRight && Input.mousePosition.x < shootFromPos.x || !isFacingRight && Input.mousePosition.x > shootFromPos.x)
 		{
 			isFacingRight = !isFacingRight;
