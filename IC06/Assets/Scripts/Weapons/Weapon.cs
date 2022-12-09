@@ -87,6 +87,8 @@ public class Weapon : MonoBehaviour
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnStartChargingEvent = new UnityEvent();
 			weaponSO.GetShootComponent().OnCanceledChargeEvent = new UnityEvent();
+
+			weaponSO.GetOnHitComponent().OnProjectileExplodesEvent = new UnityEvent<Projectile>();
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent = new UnityEvent<Projectile>();
 
 			weaponSO.GetShootComponent().IsFiring = false;
@@ -101,6 +103,7 @@ public class Weapon : MonoBehaviour
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetProjectileComponent().OnStoppedHoldingHandler);
 			weaponSO.GetShootComponent().OnStoppedHoldingEvent.AddListener(weaponSO.GetSoundComponent().OnStoppedHoldingHandler);
 			weaponSO.GetShootComponent().OnStartChargingEvent.AddListener(weaponSO.GetSoundComponent().OnStartChargingHandler);
+			weaponSO.GetOnHitComponent().OnProjectileExplodesEvent.AddListener(weaponSO.GetSoundComponent().OnProjectileExplodeHandler);
 
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetOnHitComponent().OnProjectileFiredHandler);
 			weaponSO.GetProjectileComponent().OnProjectileFiredEvent.AddListener(weaponSO.GetSoundComponent().OnProjectileFiredHandler);
@@ -117,12 +120,13 @@ public class Weapon : MonoBehaviour
 		{
 			mouseButtonPressedEvent.Invoke();
 		}
-		if (Input.GetMouseButtonUp(0) && !GameManager.Instance.IsGamePaused)
+		if (Input.GetMouseButtonUp(0))
 		{
 			mouseButtonReleasedEvent.Invoke();
 		}
 
-		CheckChangeWeapon();
+		if (Application.isEditor)
+			CheckChangeWeapon();
 
 		Vector2 shootFromPos = cam.WorldToScreenPoint(shootFrom.position);
 		if (isFacingRight && Input.mousePosition.x < shootFromPos.x || !isFacingRight && Input.mousePosition.x > shootFromPos.x)

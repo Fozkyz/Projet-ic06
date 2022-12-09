@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5578c18b3fff0a4aa88b47abc03b8e8, type: 3}
   m_Name: Grenade Launcher
   m_EditorClassIdentifier: 
+  weaponSprite: {fileID: 21300000, guid: cf7cbe1f550367847881175317d81166, type: 3}
   shootComponent:
     OnShootEvent:
       m_PersistentCalls:

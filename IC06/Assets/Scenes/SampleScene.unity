@@ -5133,6 +5133,7 @@ MonoBehaviour:
   grid: {fileID: 1492102174}
   dungeonSize: {x: 20, y: 20}
   roomCount: 10
+  shopRoomCount: 2
   startingRoomPool:
   - {fileID: 11400000, guid: b4ba71d9455e27741a1795d8f9f9c389, type: 2}
   - {fileID: 11400000, guid: 159b8dbf3ed7f414da6c1e8c108da39d, type: 2}
@@ -5245,6 +5246,8 @@ MonoBehaviour:
   _musicSource: {fileID: 519420034}
   _cyberpunkMusics:
   - {fileID: 8300000, guid: 9178d39c8c6af9d41af0e76b7536bbfe, type: 3}
+  - {fileID: 8300000, guid: 30c4590ae16e1fb40a0f0e976a1c95f6, type: 3}
+  - {fileID: 8300000, guid: 479e74ad304d27c498ca9c1c771b88f1, type: 3}
   weaponsSO:
   - {fileID: 11400000, guid: d225e79c26d112b49833368a11778e83, type: 2}
   - {fileID: 11400000, guid: 1213c23fe269d1b469fafab6fab7016d, type: 2}
@@ -5253,7 +5256,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 38807d97a756d42438db3c23afcce38a, type: 2}
   - {fileID: 11400000, guid: 2d27388e5dee15846a9d4134e85de17f, type: 2}
   augmentsSO:
-  - {fileID: 11400000, guid: 111f0051259dbc041bf8bbe95e15cd6f, type: 2}
+  - {fileID: 11400000, guid: f6149c339e34a5d469eea7c1a06f63b1, type: 2}
+  - {fileID: 11400000, guid: 821ccecf93ca76543858d0672aa36866, type: 2}
+  - {fileID: 11400000, guid: 9c182ebcc99d38d4caa667c0dac0467e, type: 2}
+  - {fileID: 11400000, guid: ff95a566a9fcffe479a7415d51b67e80, type: 2}
+  - {fileID: 11400000, guid: cd2aaf8a42ebe8e49a26c86d55730eb6, type: 2}
+  - {fileID: 11400000, guid: e279ef70b2415564a9ee605ac2a9fd41, type: 2}
+  - {fileID: 11400000, guid: ef9afd8e9d8d8e643bf065e3528f910e, type: 2}
+  - {fileID: 11400000, guid: 7db60c3ae0f678845a8ea24f3a5217bd, type: 2}
 --- !u!114 &2072908627
 MonoBehaviour:
   m_ObjectHideFlags: 0

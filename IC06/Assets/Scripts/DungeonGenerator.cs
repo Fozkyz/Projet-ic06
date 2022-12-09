@@ -7,6 +7,7 @@ public class DungeonGenerator : MonoBehaviour
 	[SerializeField] private GameObject grid;
 	[SerializeField] private Vector2Int dungeonSize;
 	[SerializeField] private int roomCount;
+	[SerializeField] private int shopRoomCount;
 
 	[SerializeField] List<Room> startingRoomPool;
 	[SerializeField] List<Room> roomPool;
@@ -95,10 +96,46 @@ public class DungeonGenerator : MonoBehaviour
 		}
 	}
 
+	public void GenerateSpecialRooms()
+	{
+		List<Vector2Int> possibleRooms = GetTerminalRooms();
+		if (possibleRooms.Count > 0)
+		{
+			Vector2Int bossRoomPos = possibleRooms[Random.Range(0, possibleRooms.Count)];
+			if (dungeon[bossRoomPos.x + 1, bossRoomPos.y] > RoomDirection.ND)
+			{
+				dungeon[bossRoomPos.x, bossRoomPos.y] = RoomDirection.BOSSR;
+				dungeon[bossRoomPos.x + 1, bossRoomPos.y] += 4;
+			}
+			else
+			{
+				dungeon[bossRoomPos.x, bossRoomPos.y] = RoomDirection.BOSSL;
+				dungeon[bossRoomPos.x - 1, bossRoomPos.y] += 8;
+			}
+			possibleRooms.Remove(bossRoomPos);
+		}
+		for (int shop = 0; shop < shopRoomCount; shop++)
+		{
+			if (possibleRooms.Count > 0)
+			{
+				Vector2Int shopRoomPos = possibleRooms[Random.Range(0, possibleRooms.Count)];
+				if (dungeon[shopRoomPos.x + 1, shopRoomPos.y] > RoomDirection.ND)
+				{
+					dungeon[shopRoomPos.x, shopRoomPos.y] = RoomDirection.SHOPR;
+					dungeon[shopRoomPos.x + 1, shopRoomPos.y] += 4;
+				}
+				else
+				{
+					dungeon[shopRoomPos.x, shopRoomPos.y] = RoomDirection.SHOPL;
+					dungeon[shopRoomPos.x - 1, shopRoomPos.y] += 8;
+				}
+				possibleRooms.Remove(shopRoomPos);
+			}
+		}
+	}
+
 	public void BuildDungeon()
 	{
-		bool alreadyPlacedShop = false;
-		bool alreadyPlacedBossRoom = false;
 		teleporterManagers = new Dictionary<Vector2Int, TeleporterManager>();
 		GameObject holder = new GameObject();
 		holder.name = "Dungeon";
@@ -123,12 +160,49 @@ public class DungeonGenerator : MonoBehaviour
 					else
 					{
 						Vector2Int t = new Vector2Int(i, j);
-						if (!alreadyPlacedShop && (room == RoomDirection.R || room == RoomDirection.L) && shopRoomPool.Count > 1)
+						//if (!alreadyPlacedShop && (room == RoomDirection.R || room == RoomDirection.L) && shopRoomPool.Count > 1)
+						//{
+						//	List<Room> possibleRooms = GetRoomsByDirection(shopRoomPool, room);
+						//	if (possibleRooms.Count > 0)
+						//	{
+						//		// Spawn shop room								
+						//		TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+						//		teleporterManagers[t] = tpManager;
+						//		ShopManager shopManager = tpManager.GetComponent<ShopManager>();
+						//		if (shopManager != null)
+						//		{
+						//			shopManager.InitShop();
+						//		}
+						//		alreadyPlacedShop = true;
+						//	}
+						//}
+						//else if (!alreadyPlacedBossRoom && (room == RoomDirection.R || room == RoomDirection.L) && bossRoomPool.Count > 1)
+						//{
+						//	List<Room> possibleRooms = GetRoomsByDirection(bossRoomPool, room);
+						//	if (possibleRooms.Count > 0)
+						//	{
+						//		// Spawn boss room								
+						//		TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+						//		teleporterManagers[t] = tpManager;
+						//		alreadyPlacedBossRoom = true;
+						//	}
+						//}
+						if (room == RoomDirection.BOSSL || room == RoomDirection.BOSSR)
 						{
-							List<Room> possibleRooms = GetRoomsByDirection(shopRoomPool, room);
+							// Spawn boss room
+							List<Room> possibleRooms = GetRoomsByDirection(bossRoomPool, room);
 							if (possibleRooms.Count > 0)
 							{
-								// Spawn shop room								
+								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
+								teleporterManagers[t] = tpManager;
+							}
+						}
+						else if (room == RoomDirection.SHOPL || room == RoomDirection.SHOPR)
+						{
+							// Spawn shop room
+							List<Room> possibleRooms = GetRoomsByDirection(shopRoomPool, room);
+							if (possibleRooms.Count > 0)
+							{							
 								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
 								teleporterManagers[t] = tpManager;
 								ShopManager shopManager = tpManager.GetComponent<ShopManager>();
@@ -136,18 +210,6 @@ public class DungeonGenerator : MonoBehaviour
 								{
 									shopManager.InitShop();
 								}
-								alreadyPlacedShop = true;
-							}
-						}
-						else if (!alreadyPlacedBossRoom && (room == RoomDirection.R || room == RoomDirection.L) && bossRoomPool.Count > 1)
-						{
-							List<Room> possibleRooms = GetRoomsByDirection(bossRoomPool, room);
-							if (possibleRooms.Count > 0)
-							{
-								// Spawn boss room								
-								TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-								teleporterManagers[t] = tpManager;
-								alreadyPlacedBossRoom = true;
 							}
 						}
 						else
@@ -164,6 +226,47 @@ public class DungeonGenerator : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private List<Vector2Int> GetTerminalRooms()
+	{
+		List<Vector2Int> terminalRooms = new List<Vector2Int>();
+		for (int i = 0; i < dungeonSize.x; i++)
+		{
+			for (int j = 0; j < dungeonSize.y; j++)
+			{
+				RoomDirection room = dungeon[i, j];
+				if (room == RoomDirection.NULL)
+				{
+					if (i < dungeonSize.x - 1 && IsRoomTerminal(i, j, 1) && dungeon[i+1, j] > RoomDirection.ND || i > 0 && IsRoomTerminal(i, j, -1) && dungeon[i - 1, j] > RoomDirection.ND)
+					{
+						terminalRooms.Add(new Vector2Int(i, j));
+					}
+				}
+			}
+		}
+
+		return terminalRooms;
+	}
+
+	private bool IsRoomTerminal(int i, int j, int side)
+	{
+		int iMin = Mathf.Max(i - 1, 0);
+		int iMax = Mathf.Min(i + 1, dungeonSize.x - 1);
+		int jMin = Mathf.Max(j - 1, 0);
+		int jMax = Mathf.Min(j + 1, dungeonSize.y - 1);
+
+		for (int ii = iMin; ii < iMax; ii++)
+		{
+			for (int jj = jMin; jj < jMax; jj++)
+			{
+				if (ii != i + side && dungeon[ii, jj] > RoomDirection.ND)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private List<Room> GetRoomsByDirection(List<Room> possibleRooms, RoomDirection direction)
@@ -239,6 +342,7 @@ public class DungeonGenerator : MonoBehaviour
 		}
 
 		GenerateDungeon(roomCount);
+		GenerateSpecialRooms();
 		BuildDungeon();
 		LinkPortals();
 		AddBackgroundImages();
@@ -264,12 +368,12 @@ public class DungeonGenerator : MonoBehaviour
 
 	private bool IsLeft(RoomDirection room)
 	{
-		return (room == RoomDirection.L || room == RoomDirection.TL || room == RoomDirection.BL || room == RoomDirection.TBL || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR);
+		return (room == RoomDirection.L || room == RoomDirection.TL || room == RoomDirection.BL || room == RoomDirection.TBL || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSL || room == RoomDirection.SHOPL);
 	}
 
 	private bool IsRight(RoomDirection room)
 	{
-		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR);
+		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSR || room == RoomDirection.SHOPR);
 	}
 
 
@@ -294,4 +398,8 @@ public enum RoomDirection
 	TLR = 13,
 	BLR = 14,
 	TBLR = 15,
+	BOSSL = 16,
+	BOSSR = 17,
+	SHOPL = 18,
+	SHOPR = 19
 }
