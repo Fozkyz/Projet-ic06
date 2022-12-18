@@ -40,6 +40,10 @@ public class Weapon : MonoBehaviour
 
 	public void SetWeaponSO(WeaponSO newWeaponSO)
 	{
+		if (weaponSO != null)
+		{
+			weaponSO.GetShootComponent().IsFiring = false;
+		}
 		weaponSO = newWeaponSO;
 		InitWeapon();
 		foreach (Augment augment in augments)
