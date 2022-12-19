@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
@@ -30,7 +31,7 @@ public class DungeonGenerator : MonoBehaviour
 		}
 
 		List<Vector2Int> neighbourRooms = new List<Vector2Int>();
-
+		
 		Vector2Int position = new Vector2Int(dungeonSize.x / 2, dungeonSize.y / 2);
 		dungeon[position.x, position.y] = RoomDirection.ND;
 		neighbourRooms.Add(position + new Vector2Int(-1, 0));
@@ -160,33 +161,6 @@ public class DungeonGenerator : MonoBehaviour
 					else
 					{
 						Vector2Int t = new Vector2Int(i, j);
-						//if (!alreadyPlacedShop && (room == RoomDirection.R || room == RoomDirection.L) && shopRoomPool.Count > 1)
-						//{
-						//	List<Room> possibleRooms = GetRoomsByDirection(shopRoomPool, room);
-						//	if (possibleRooms.Count > 0)
-						//	{
-						//		// Spawn shop room								
-						//		TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-						//		teleporterManagers[t] = tpManager;
-						//		ShopManager shopManager = tpManager.GetComponent<ShopManager>();
-						//		if (shopManager != null)
-						//		{
-						//			shopManager.InitShop();
-						//		}
-						//		alreadyPlacedShop = true;
-						//	}
-						//}
-						//else if (!alreadyPlacedBossRoom && (room == RoomDirection.R || room == RoomDirection.L) && bossRoomPool.Count > 1)
-						//{
-						//	List<Room> possibleRooms = GetRoomsByDirection(bossRoomPool, room);
-						//	if (possibleRooms.Count > 0)
-						//	{
-						//		// Spawn boss room								
-						//		TeleporterManager tpManager = possibleRooms[Random.Range(0, possibleRooms.Count)].Spawn(new Vector2Int(i - dungeonSize.x / 2, j - dungeonSize.y / 2), grid);
-						//		teleporterManagers[t] = tpManager;
-						//		alreadyPlacedBossRoom = true;
-						//	}
-						//}
 						if (room == RoomDirection.BOSSL || room == RoomDirection.BOSSR)
 						{
 							// Spawn boss room
@@ -347,7 +321,9 @@ public class DungeonGenerator : MonoBehaviour
 		LinkPortals();
 		AddBackgroundImages();
 
-		Invoke(nameof(SetFirstRoomActive), 1f);
+		GetComponent<MinimapManager>().GenerateMinimap(dungeon);
+
+		Invoke(nameof(SubscribeMinimapManagerToEvents), .5f);
 	}
 
 	private void SetFirstRoomActive()
@@ -356,27 +332,70 @@ public class DungeonGenerator : MonoBehaviour
 		rm.SetActiveRoom(true);
 	}
 
-	private bool IsTop(RoomDirection room)
+	private void SubscribeMinimapManagerToEvents()
 	{
-		return (room == RoomDirection.T || room == RoomDirection.TB || room == RoomDirection.TL || room == RoomDirection.TBL || room == RoomDirection.TR || room == RoomDirection.TBR || room == RoomDirection.TLR || room == RoomDirection.TBLR);
+		MinimapManager minimapManager = GetComponent<MinimapManager>();
+		if (minimapManager != null)
+		{
+			foreach (KeyValuePair<Vector2Int, TeleporterManager> tpManager in teleporterManagers)
+			{
+				RoomManager rm = tpManager.Value.GetComponent<RoomManager>();
+				if (rm != null)
+				{
+					rm.OnPlayerEnteredRoomEvent = new UnityEvent<RoomManager>();
+					rm.Position = tpManager.Key;
+					Debug.Log("New");
+					rm.OnPlayerEnteredRoomEvent.AddListener(minimapManager.OnPlayerEnteredRoomHandler);
+				}
+			}
+		}
+		SetFirstRoomActive();
 	}
 
-	private bool IsBot(RoomDirection room)
+	public static bool IsTop(RoomDirection room)
 	{
-		return (room == RoomDirection.B || room == RoomDirection.TB || room == RoomDirection.BL || room == RoomDirection.TBL || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.BLR || room == RoomDirection.TBLR);
+		return (room == RoomDirection.T || room == RoomDirection.TB || room == RoomDirection.TL || 
+			room == RoomDirection.TBL || room == RoomDirection.TR || room == RoomDirection.TBR || 
+			room == RoomDirection.TLR || room == RoomDirection.TBLR);
 	}
 
-	private bool IsLeft(RoomDirection room)
+	public static bool IsBot(RoomDirection room)
 	{
-		return (room == RoomDirection.L || room == RoomDirection.TL || room == RoomDirection.BL || room == RoomDirection.TBL || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSL || room == RoomDirection.SHOPL);
+		return (room == RoomDirection.B || room == RoomDirection.TB || room == RoomDirection.BL || 
+			room == RoomDirection.TBL || room == RoomDirection.BR || room == RoomDirection.TBR || 
+			room == RoomDirection.BLR || room == RoomDirection.TBLR);
 	}
 
-	private bool IsRight(RoomDirection room)
+	public static bool IsLeft(RoomDirection room)
 	{
-		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR || room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSR || room == RoomDirection.SHOPR);
+		return (room == RoomDirection.L || room == RoomDirection.TL || room == RoomDirection.BL || 
+			room == RoomDirection.TBL || room == RoomDirection.LR || room == RoomDirection.TLR || 
+			room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSL ||
+			room == RoomDirection.SHOPL);
 	}
 
+	public static bool IsRight(RoomDirection room)
+	{
+		return (room == RoomDirection.R || room == RoomDirection.TR || room == RoomDirection.BR ||
+			room == RoomDirection.TBR || room == RoomDirection.LR || room == RoomDirection.TLR || 
+			room == RoomDirection.BLR || room == RoomDirection.TBLR || room == RoomDirection.BOSSR ||
+			room == RoomDirection.SHOPR);
+	}
 
+	public static bool IsNormalRoom(RoomDirection room)
+	{
+		return (room >= RoomDirection.T && room <= RoomDirection.TBLR);
+	}
+
+	public static bool IsBossRoom(RoomDirection room)
+	{
+		return (room == RoomDirection.BOSSL || room == RoomDirection.BOSSR);
+	}
+
+	public static bool IsShopRoom(RoomDirection room)
+	{
+		return (room == RoomDirection.SHOPL || room == RoomDirection.SHOPR);
+	}
 }
 
 public enum RoomDirection
