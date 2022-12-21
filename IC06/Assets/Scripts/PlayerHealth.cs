@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
 	[SerializeField] private int _maxHealth;
+	[SerializeField] private float _invincibilityTime;
 	
 	[Header("UI")]
 	[SerializeField] private RawImage _heartImage;
@@ -21,20 +22,26 @@ public class PlayerHealth : MonoBehaviour
 	private int _currentHealth;
 	private PlayerController _player;
 
+	private float _lastTimeHit;
+
 	private List<RawImage> _heartImages;
 
 	private int currentMoney;
 
 	public void TakeDamage()
 	{
-		_currentHealth--;
-		_heartImages[_currentHealth % _heartImages.Count].enabled = false;
-		if (_currentHealth == 0)
+		if (_lastTimeHit + _invincibilityTime > Time.time)
 		{
-			// Game over
-			_player.Deactivate();
-			_gameOverScreen.SetActive(true);
-			GameManager.Instance.GameOver();
+			_lastTimeHit = Time.time;
+			_currentHealth--;
+			_heartImages[_currentHealth % _heartImages.Count].enabled = false;
+			if (_currentHealth == 0)
+			{
+				// Game over
+				_player.Deactivate();
+				_gameOverScreen.SetActive(true);
+				GameManager.Instance.GameOver();
+			}
 		}
 	}
 

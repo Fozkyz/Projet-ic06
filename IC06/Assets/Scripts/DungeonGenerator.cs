@@ -344,7 +344,6 @@ public class DungeonGenerator : MonoBehaviour
 				{
 					rm.OnPlayerEnteredRoomEvent = new UnityEvent<RoomManager>();
 					rm.Position = tpManager.Key;
-					Debug.Log("New");
 					rm.OnPlayerEnteredRoomEvent.AddListener(minimapManager.OnPlayerEnteredRoomHandler);
 				}
 			}

@@ -75,38 +75,43 @@ public class MinimapManager : MonoBehaviour
 
 	public void OnPlayerEnteredRoomHandler(RoomManager rm)
 	{
-		Debug.Log("Player entered room");
 		Vector2Int pos = rm.Position;
 		int i = pos.x;
 		int j = pos.y;
-		Debug.Log("Test");
 		if (roomImages[i, j].color == unvisitedColor || roomImages[i, j].color == unkownColor)
 		{
-			Debug.Log("techte");
 			roomImages[i, j].color = visitedColor;
 
-			if (DungeonGenerator.IsRight(_dungeon[i, j]) && roomImages[i + 1, j].color == unkownColor)
+			if (DungeonGenerator.IsRight(_dungeon[i, j]) && roomImages[i + 1, j].color != visitedColor)
 			{
 				roomImages[i + 1, j].color = unvisitedColor;
 				GenerateCorridor(((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f + (i + 1 - leftMost - (rightMost - leftMost) / 2) * size * 1.2f) / 2, (j - topMost - (botMost - topMost) / 2) * size * 1.2f);
 			}
-			if (DungeonGenerator.IsLeft(_dungeon[i, j]) && roomImages[i - 1, j].color == unkownColor)
+			if (DungeonGenerator.IsLeft(_dungeon[i, j]) && roomImages[i - 1, j].color != visitedColor)
 			{
 				roomImages[i - 1, j].color = unvisitedColor;
 				GenerateCorridor(((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f + (i - 1 - leftMost - (rightMost - leftMost) / 2) * size * 1.2f) / 2, (j - topMost - (botMost - topMost) / 2) * size * 1.2f);
 			}
-			if (DungeonGenerator.IsTop(_dungeon[i, j]) && roomImages[i, j + 1].color == unkownColor)
+			if (DungeonGenerator.IsTop(_dungeon[i, j]) && roomImages[i, j + 1].color != visitedColor)
 			{
 				roomImages[i, j + 1].color = unvisitedColor;
 				GenerateCorridor((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f, ((j - topMost - (botMost - topMost) / 2) * size * 1.2f + (j + 1 - topMost - (botMost - topMost) / 2) * size * 1.2f) / 2);
 			}
-			if (DungeonGenerator.IsBot(_dungeon[i, j]) && roomImages[i, j - 1].color == unkownColor)
+			if (DungeonGenerator.IsBot(_dungeon[i, j]) && roomImages[i, j - 1].color != visitedColor)
 			{
 				roomImages[i, j - 1].color = unvisitedColor;
 				GenerateCorridor((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f, ((j - topMost - (botMost - topMost) / 2) * size * 1.2f + (j - 1 - topMost - (botMost - topMost) / 2) * size * 1.2f) / 2);
 			}
 		}
 		rm.OnPlayerEnteredRoomEvent.RemoveListener(OnPlayerEnteredRoomHandler);
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			roomsHolder.parent.gameObject.SetActive(!roomsHolder.parent.gameObject.activeSelf);
+		}
 	}
 
 	private void GenerateCorridor(float x, float y)

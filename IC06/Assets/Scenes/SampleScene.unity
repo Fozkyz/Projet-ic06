@@ -4244,6 +4244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 3
+  _invincibilityTime: 0.3
   _heartImage: {fileID: 8536787137892157052, guid: aa72f14aa87b79740a9022619a342d1e, type: 3}
   _heartContainerUI: {fileID: 1413400251}
   moneyText: {fileID: 582934537}
