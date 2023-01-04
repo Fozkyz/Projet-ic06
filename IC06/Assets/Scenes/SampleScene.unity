@@ -5448,7 +5448,7 @@ MonoBehaviour:
   tileSprite: {fileID: 21300000, guid: c2368fe82199a544caac9c087ad9a63a, type: 3}
   bossTileSprite: {fileID: 21300000, guid: 4e0fd78754108d347a6ea484c1800c4f, type: 3}
   shopTileSprite: {fileID: 21300000, guid: 63e56f5713e493942ad3108cbc5345d0, type: 3}
-  playerSprite: {fileID: 0}
+  playerSprite: {fileID: 21300000, guid: 0b5acc184cc35294d9d5cf7c33ca152b, type: 3}
   visitedColor: {r: 1, g: 1, b: 1, a: 1}
   unvisitedColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
   unkownColor: {r: 0, g: 0, b: 0, a: 0}

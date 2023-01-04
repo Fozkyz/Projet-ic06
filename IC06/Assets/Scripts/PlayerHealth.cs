@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
 
 	public void TakeDamage()
 	{
-		if (_lastTimeHit + _invincibilityTime < Time.time)
+		if (_lastTimeHit + _invincibilityTime < Time.time && _currentHealth > 0)
 		{
 			_lastTimeHit = Time.time;
 			_currentHealth--;
@@ -122,7 +122,7 @@ public class PlayerHealth : MonoBehaviour
 
 	private void Awake()
 	{
-		currentMoney = 1000;
+		currentMoney = 0;
 		_currentHealth = _maxHealth;
 		_heartImages = new List<RawImage>();
 		_player = GetComponent<PlayerController>();

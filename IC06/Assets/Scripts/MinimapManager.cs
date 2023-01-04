@@ -20,6 +20,7 @@ public class MinimapManager : MonoBehaviour
 
 	private RoomDirection[,] _dungeon;
 	private Image[,] roomImages;
+	private GameObject playerImage;
 
 	private int leftMost, rightMost, topMost, botMost;
 	private float size;
@@ -78,6 +79,21 @@ public class MinimapManager : MonoBehaviour
 		Vector2Int pos = rm.Position;
 		int i = pos.x;
 		int j = pos.y;
+
+		//Debug.Log("Creation truc");
+		if (playerImage == null)
+		{
+			playerImage = new GameObject();
+			Image image = playerImage.AddComponent<Image>();
+			image.color = Color.white;
+			image.sprite = playerSprite;
+		}
+		RectTransform rect = playerImage.GetComponent<RectTransform>();
+		rect.SetParent(roomsHolder);
+		rect.localPosition = new Vector2((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f, (j - topMost - (botMost - topMost) / 2) * size * 1.2f);
+		rect.sizeDelta = new Vector2(size, size) * .7f;
+		playerImage.SetActive(true);
+
 		if (roomImages[i, j].color == unvisitedColor || roomImages[i, j].color == unkownColor)
 		{
 			roomImages[i, j].color = visitedColor;
@@ -103,15 +119,26 @@ public class MinimapManager : MonoBehaviour
 				GenerateCorridor((i - leftMost - (rightMost - leftMost) / 2) * size * 1.2f, ((j - topMost - (botMost - topMost) / 2) * size * 1.2f + (j - 1 - topMost - (botMost - topMost) / 2) * size * 1.2f) / 2);
 			}
 		}
-		rm.OnPlayerEnteredRoomEvent.RemoveListener(OnPlayerEnteredRoomHandler);
+		//rm.OnPlayerEnteredRoomEvent.RemoveListener(OnPlayerEnteredRoomHandler);
+	}
+
+	private void Start()
+	{
+		TurnMapOff();
+		GameManager.Instance.OnGamePausedEvent.AddListener(TurnMapOff);
 	}
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Tab))
+		if (Input.GetKeyDown(KeyCode.Tab) && !GameManager.Instance.IsGamePaused)
 		{
 			roomsHolder.parent.gameObject.SetActive(!roomsHolder.parent.gameObject.activeSelf);
 		}
+	}
+
+	private void TurnMapOff()
+	{
+		roomsHolder.parent.gameObject.SetActive(false);
 	}
 
 	private void GenerateCorridor(float x, float y)

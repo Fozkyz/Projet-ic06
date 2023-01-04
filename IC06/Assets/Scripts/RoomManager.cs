@@ -23,7 +23,10 @@ public class RoomManager : MonoBehaviour
 				enemy.SetActive(_isActiveRoom);
 			}
 		}
-		OnPlayerEnteredRoomEvent.Invoke(this);
+		if (newIsActive)
+		{
+			OnPlayerEnteredRoomEvent.Invoke(this);
+		}
 	}
 
 	protected virtual void Start()

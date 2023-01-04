@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 			_musicSource.Play();
 		}
 
-		if (Input.GetKeyDown(KeyCode.P))
+		if (Input.GetKeyDown(KeyCode.P) && Application.isEditor)
 		{
 			ReloadScene();
 		}
