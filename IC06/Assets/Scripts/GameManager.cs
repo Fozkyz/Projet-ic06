@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 	public static int NbGame { get; set; }
 	public static int PlayerHealth { get; set; }
 	public static int PlayerMoney { get; set; }
+	public static WeaponSO PlayerWeapon { get; set; }
+	public static List<Augment> PlayerAugments { get; set; }
 
 	[SerializeField] private GameObject _pauseScreen;
 	[SerializeField] private AudioSource _musicSource;
@@ -85,6 +87,14 @@ public class GameManager : MonoBehaviour
 			PlayerHealth = p.GetHealth();
 			PlayerMoney = p.GetMoney();
 		}
+		
+		Weapon w = Player.GetComponent<Weapon>();
+		if (w != null)
+		{
+			PlayerWeapon = w.GetWeaponSO();
+			PlayerAugments = w.GetAugments();
+		}
+
 		NbGame++;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
@@ -109,6 +119,15 @@ public class GameManager : MonoBehaviour
 			{
 				p.AddMoney(PlayerMoney);
 				p.SetHealth(PlayerHealth);
+			}
+			Weapon w = Player.GetComponent<Weapon>();
+			if (w != null && PlayerWeapon != null)
+			{
+				w.SetWeaponSO(PlayerWeapon);
+				foreach (Augment augment in PlayerAugments)
+				{
+					w.AddAugment(augment);
+				}
 			}
 		}
 		if (_pauseScreen != null)

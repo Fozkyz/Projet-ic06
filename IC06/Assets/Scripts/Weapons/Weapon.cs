@@ -31,6 +31,11 @@ public class Weapon : MonoBehaviour
 		return weaponSO;
 	}
 
+	public List<Augment> GetAugments()
+	{
+		return augments;
+	}
+
 	public void OnShootHandler()
 	{
 		Vector2 shootFromPos =  cam.WorldToScreenPoint(shootFrom.position);
