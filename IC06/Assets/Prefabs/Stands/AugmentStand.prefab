@@ -562,7 +562,7 @@ MonoBehaviour:
   _canPlayerPressRenderer: {fileID: 4519636693065302416}
   _priceText: {fileID: 6398539804991723986}
   _keyCode: 13
-  _price: 20
+  _price: 60
   augmentText: {fileID: 2806994356242357880}
   augment: {fileID: 11400000, guid: 111f0051259dbc041bf8bbe95e15cd6f, type: 2}
 --- !u!61 &6176053537575986919

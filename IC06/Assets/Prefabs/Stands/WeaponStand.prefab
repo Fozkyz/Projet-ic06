@@ -106,7 +106,7 @@ MonoBehaviour:
   _canPlayerPressRenderer: {fileID: 2500748268781260804}
   _priceText: {fileID: 9168528928776725379}
   _keyCode: 13
-  _price: 20
+  _price: 90
   weaponText: {fileID: 1311382746913923156}
 --- !u!61 &7800657511353032098
 BoxCollider2D:

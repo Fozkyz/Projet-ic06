@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 	public bool IsGamePaused;
 
 	public static int NbGame { get; set; }
+	public static int PlayerHealth { get; set; }
+	public static int PlayerMoney { get; set; }
 
 	[SerializeField] private GameObject _pauseScreen;
 	[SerializeField] private AudioSource _musicSource;
@@ -77,6 +79,12 @@ public class GameManager : MonoBehaviour
 
 	public void ReloadScene()
 	{
+		PlayerHealth p = Player.GetComponent<PlayerHealth>();
+		if (p != null)
+		{
+			PlayerHealth = p.GetHealth();
+			PlayerMoney = p.GetMoney();
+		}
 		NbGame++;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
@@ -96,6 +104,12 @@ public class GameManager : MonoBehaviour
 		if (Player != null)
 		{
 			startPos = Player.transform.position;
+			PlayerHealth p = Player.GetComponent<PlayerHealth>();
+			if (p != null && PlayerHealth > 0)
+			{
+				p.AddMoney(PlayerMoney);
+				p.SetHealth(PlayerHealth);
+			}
 		}
 		if (_pauseScreen != null)
 		{

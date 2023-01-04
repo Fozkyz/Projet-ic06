@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
 
 	public void TakeDamage()
 	{
-		if (_lastTimeHit + _invincibilityTime > Time.time)
+		if (_lastTimeHit + _invincibilityTime < Time.time)
 		{
 			_lastTimeHit = Time.time;
 			_currentHealth--;
@@ -54,6 +54,22 @@ public class PlayerHealth : MonoBehaviour
 		}
 	}
 
+	public void SetHealth(int health)
+	{
+		_currentHealth = health;
+		for (int i = 0; i < _maxHealth; i++)
+		{
+			if (i < _currentHealth)
+			{
+				_heartImages[i].enabled = true;
+			}
+			else
+			{
+				_heartImages[i].enabled = false;
+			}
+		}
+	}
+
 	public int GetCurrentMoney()
 	{
 		return currentMoney;
@@ -69,6 +85,16 @@ public class PlayerHealth : MonoBehaviour
 	{
 		currentMoney += amount;
 		moneyText.text = currentMoney.ToString();
+	}
+
+	public int GetMoney()
+	{
+		return currentMoney;
+	}
+
+	public int GetHealth()
+	{
+		return _currentHealth;
 	}
 
 	public void InteractWithStand(WeaponStand weaponStand)
@@ -94,13 +120,17 @@ public class PlayerHealth : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	private void Awake()
 	{
 		currentMoney = 0;
 		_currentHealth = _maxHealth;
 		_heartImages = new List<RawImage>();
 		_player = GetComponent<PlayerController>();
 		_gameOverScreen.SetActive(false);
+	}
+
+	private void Start()
+	{
 		PayMoney(0);
 		SetupUI();
 	}

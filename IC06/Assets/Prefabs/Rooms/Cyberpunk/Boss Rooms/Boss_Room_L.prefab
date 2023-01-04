@@ -24406,6 +24406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e308b399069db047bf910db3485794e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlayerEnteredRoomEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _numberOfWaves: 3
   _portalPrefab: {fileID: 941244650584609491, guid: c470c33691ea8f34096864264796461e, type: 3}
   _portalSpawnPoint: {fileID: 2247358754303251319}
