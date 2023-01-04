@@ -25003,6 +25003,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f59a7259869c444eadc3c8900ea1cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlayerEnteredRoomEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3826318556943625622
 MonoBehaviour:
   m_ObjectHideFlags: 0

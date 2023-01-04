@@ -122,7 +122,7 @@ public class PlayerHealth : MonoBehaviour
 
 	private void Awake()
 	{
-		currentMoney = 0;
+		currentMoney = 1000;
 		_currentHealth = _maxHealth;
 		_heartImages = new List<RawImage>();
 		_player = GetComponent<PlayerController>();

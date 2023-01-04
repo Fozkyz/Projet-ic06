@@ -32,6 +32,11 @@ public class AugmentStand : InteractableStand
 		augmentText.enabled = false;
 		_canPlayerPressRenderer.enabled = false;
 		_priceText.enabled = false;
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+		if (renderer != null)
+		{
+			Destroy(renderer);
+		}
 		Destroy(this);
 	}
 }
