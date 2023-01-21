@@ -12,6 +12,12 @@ public class GameManager : MonoBehaviour
 	public UnityEvent OnGamePausedEvent, OnGameResumeEvent;
 	public bool IsGamePaused;
 
+	public static int NbGame { get; set; }
+	public static int PlayerHealth { get; set; }
+	public static int PlayerMoney { get; set; }
+	public static WeaponSO PlayerWeapon { get; set; }
+	public static List<Augment> PlayerAugments { get; set; }
+
 	[SerializeField] private GameObject _pauseScreen;
 	[SerializeField] private AudioSource _musicSource;
 
@@ -73,6 +79,26 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
+	public void ReloadScene()
+	{
+		PlayerHealth p = Player.GetComponent<PlayerHealth>();
+		if (p != null)
+		{
+			PlayerHealth = p.GetHealth();
+			PlayerMoney = p.GetMoney();
+		}
+		
+		Weapon w = Player.GetComponent<Weapon>();
+		if (w != null)
+		{
+			PlayerWeapon = w.GetWeaponSO();
+			PlayerAugments = w.GetAugments();
+		}
+
+		NbGame++;
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
 	public List<WeaponSO> GetWeaponsSO()
 	{
 		return weaponsSO;
@@ -88,6 +114,21 @@ public class GameManager : MonoBehaviour
 		if (Player != null)
 		{
 			startPos = Player.transform.position;
+			PlayerHealth p = Player.GetComponent<PlayerHealth>();
+			if (p != null && PlayerHealth > 0)
+			{
+				p.AddMoney(PlayerMoney);
+				p.SetHealth(PlayerHealth);
+			}
+			Weapon w = Player.GetComponent<Weapon>();
+			if (w != null && PlayerWeapon != null)
+			{
+				w.SetWeaponSO(PlayerWeapon);
+				foreach (Augment augment in PlayerAugments)
+				{
+					w.AddAugment(augment);
+				}
+			}
 		}
 		if (_pauseScreen != null)
 		{
@@ -114,6 +155,11 @@ public class GameManager : MonoBehaviour
 			_musicIndex = (_musicIndex + 1) % _cyberpunkMusics.Count;
 			_musicSource.clip = _cyberpunkMusics[_musicIndex];
 			_musicSource.Play();
+		}
+
+		if (Input.GetKeyDown(KeyCode.P) && Application.isEditor)
+		{
+			ReloadScene();
 		}
 	}
 }

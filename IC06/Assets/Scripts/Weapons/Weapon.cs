@@ -31,6 +31,11 @@ public class Weapon : MonoBehaviour
 		return weaponSO;
 	}
 
+	public List<Augment> GetAugments()
+	{
+		return augments;
+	}
+
 	public void OnShootHandler()
 	{
 		Vector2 shootFromPos =  cam.WorldToScreenPoint(shootFrom.position);
@@ -40,6 +45,10 @@ public class Weapon : MonoBehaviour
 
 	public void SetWeaponSO(WeaponSO newWeaponSO)
 	{
+		if (weaponSO != null)
+		{
+			weaponSO.GetShootComponent().IsFiring = false;
+		}
 		weaponSO = newWeaponSO;
 		InitWeapon();
 		foreach (Augment augment in augments)
@@ -128,7 +137,7 @@ public class Weapon : MonoBehaviour
 		if (Application.isEditor)
 			CheckChangeWeapon();
 
-		Vector2 shootFromPos = cam.WorldToScreenPoint(shootFrom.position);
+		Vector2 shootFromPos = cam.WorldToScreenPoint(transform.position);
 		if (isFacingRight && Input.mousePosition.x < shootFromPos.x || !isFacingRight && Input.mousePosition.x > shootFromPos.x)
 		{
 			isFacingRight = !isFacingRight;

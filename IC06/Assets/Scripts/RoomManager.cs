@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
+	public UnityEvent<RoomManager> OnPlayerEnteredRoomEvent;
+
+	public Vector2Int Position { get; set; }
+
 	private List<Enemy> _roomEnemies;
 
 	private bool _isActiveRoom;
@@ -17,6 +22,10 @@ public class RoomManager : MonoBehaviour
 			{
 				enemy.SetActive(_isActiveRoom);
 			}
+		}
+		if (newIsActive)
+		{
+			OnPlayerEnteredRoomEvent.Invoke(this);
 		}
 	}
 

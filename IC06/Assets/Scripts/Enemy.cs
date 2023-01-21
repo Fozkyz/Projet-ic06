@@ -6,7 +6,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	[SerializeField] GameObject _coinGO;
-	[SerializeField] private int _maxHealth;
+	[SerializeField] private int _baseMaxHealth;
+	[SerializeField] private int _maxHealthMultiplier;
 	[SerializeField] private float _speed;
 	[SerializeField] private float _detectRange;
 	[SerializeField] private float _invicibilityTime;
@@ -47,7 +48,7 @@ public class Enemy : MonoBehaviour
 				Instantiate(_coinGO, transform.position, Quaternion.identity);
 				OnEnemyKilledEvent.Invoke(this);
 				Destroy(gameObject);
-			} 
+			}
 			else
 			{
 				StartCoroutine(nameof(Blink));
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour
 	{
 		_rb = GetComponent<Rigidbody2D>();
 		_player = GameManager.Instance.Player;
-		_currentHealth = _maxHealth;
+		_currentHealth = _baseMaxHealth + GameManager.NbGame * _maxHealthMultiplier;
 		_towardsPointIndex = 0;
 		_lastTimeHit = Time.time - _invicibilityTime;
 
@@ -99,19 +100,32 @@ public class Enemy : MonoBehaviour
 			{
 				if (_patternPoints.Count > 0)
 				{
-					// Go to next point
-					if ((transform.position - _patternPoints[_towardsPointIndex % _patternPoints.Count].position).magnitude < .5f)
+					if (_patternPoints.Count > 1)
 					{
-						_towardsPointIndex++;
+						if ((transform.position - _patternPoints[_towardsPointIndex % _patternPoints.Count].position).magnitude < .5f)
+						{
+							_towardsPointIndex++;
+						}
+						_rb.velocity = (_patternPoints[_towardsPointIndex % _patternPoints.Count].position - transform.position).normalized * _speed;
 					}
-					_rb.velocity = (_patternPoints[_towardsPointIndex % _patternPoints.Count].position - transform.position).normalized * _speed;
+					else
+					{
+						if ((transform.position - _patternPoints[_towardsPointIndex % _patternPoints.Count].position).magnitude < .5f)
+						{
+							_rb.velocity = Vector2.zero;
+						}
+						else
+						{
+							_rb.velocity = (_patternPoints[_towardsPointIndex % _patternPoints.Count].position - transform.position).normalized * _speed;
+						}
+					}
 				}
 				else
 				{
 					_rb.velocity = Vector2.zero;
 				}
 			}
-			transform.localScale = _rb.velocity.x >= 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
+			transform.localScale = _rb.velocity.x > 0 ? new Vector2(1, 1) : new Vector2(-1, 1);
 		}
 	}
 

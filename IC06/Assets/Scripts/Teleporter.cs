@@ -27,7 +27,6 @@ public class Teleporter : MonoBehaviour
 	public void TeleportPlayer(PlayerController player)
 	{
 		player.transform.position = transform.position;
-		timeSinceUsed = 0f;
 		isPlayerOnTP = true;
 		_player = player;
 		OnPlayerUsedTeleporterInEvent.Invoke(player, this);
@@ -47,10 +46,11 @@ public class Teleporter : MonoBehaviour
 	private void Update()
 	{
 		timeSinceUsed += Time.deltaTime;
-		if (isPlayerOnTP && !IsTpLocked)
+		if (isPlayerOnTP && !IsTpLocked && timeSinceUsed > cooldownTime)
 		{
 			if (Utils.IsAnyKeyHeld(teleportKeys))
 			{
+				timeSinceUsed = 0f;
 				linkedTeleporter.TeleportPlayer(_player);
 				OnPlayerUsedTeleporterOutEvent.Invoke(_player, this);
 			}
@@ -59,14 +59,11 @@ public class Teleporter : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (timeSinceUsed > cooldownTime)
+		PlayerController player = collision.GetComponent<PlayerController>();
+		if (player != null)
 		{
-			PlayerController player = collision.GetComponent<PlayerController>();
-			if (player != null)
-			{
-				isPlayerOnTP = true;
-				_player = player;
-			}
+			isPlayerOnTP = true;
+			_player = player;
 		}
 	}
 

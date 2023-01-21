@@ -10,6 +10,11 @@ public class HealthStand : InteractableStand
 		_canBuy = false;
 		_priceText.enabled = false;
 		_canPlayerPressRenderer.enabled = false;
+		SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+		foreach (Renderer renderer in renderers)
+		{
+			Destroy(renderer);
+		}
 		Destroy(this);
 	}
 }
